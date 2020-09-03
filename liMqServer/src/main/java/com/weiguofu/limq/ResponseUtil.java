@@ -1,5 +1,7 @@
 package com.weiguofu.limq;
 
+import com.weiguofu.limqcommon.ResponseMessage;
+
 /**
  * @Description: response工具类
  * @Author: GuoFuWei
