@@ -14,13 +14,14 @@ import java.util.concurrent.BlockingDeque;
 @Data
 public class TaskQueue {
     /**
-     * 一个队列可以绑定多个队列
+     * 一个队列可以绑定多个topic
      */
     private List<String> topics;
 
-    private BlockingDeque ArrayBlockingQueue;
+    private BlockingDeque queue;
 
     private void bind(String topic) {
+        GlobalInitVar.allTopic.contains(topic);
         this.topics.add(topic);
     }
 

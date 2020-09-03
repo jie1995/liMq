@@ -1,6 +1,8 @@
 package com.weiguofu.limq;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -13,6 +15,12 @@ import java.util.concurrent.TimeUnit;
  * @Version 1.0
  */
 public interface GlobalInitVar {
+
+    /**
+     * 注册的topic
+     */
+    List<String> allTopic = new ArrayList<>();
+
 
     /**
      * 存放所有队列(包括点对点,topic队列)

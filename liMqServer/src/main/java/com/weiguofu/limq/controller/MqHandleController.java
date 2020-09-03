@@ -33,7 +33,7 @@ public class MqHandleController {
      * @return
      */
     @RequestMapping(value = "/produce", method = RequestMethod.POST)
-    public Object produce(String qName, String topic, String value) throws Exception {
+    public Object produce(String qName, String value) throws Exception {
         TaskQueue deque;
         Optional.ofNullable(deque = GlobalInitVar.allQueue.get(qName)).orElseThrow(() -> new Exception());
         service.save(deque, value);

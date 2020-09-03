@@ -25,7 +25,7 @@ public class OneQueueService {
      */
     public boolean save(TaskQueue deque, String value) throws ExecutionException, InterruptedException {
         Future<?> future = GlobalInitVar.excutor.submit(() -> {
-            deque.getArrayBlockingQueue().offer(value);
+            deque.getQueue().offer(value);
         });
         // 注意future.get()是阻塞的
         return (Boolean) future.get();
