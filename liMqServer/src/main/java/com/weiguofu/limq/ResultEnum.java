@@ -7,8 +7,10 @@ package com.weiguofu.limq;
 
 public enum ResultEnum {
 
-    SUCCESS("200", "消息处理成功"),
-    FAIL("500", "消息处理失败");
+    SUCCESS("201", "消息处理成功"),
+    FAIL("501", "消息处理失败"),
+    NULL_QUEUE("502", "队列不存在"),
+    NULL_TOPIC("503", "TOPIC不存在");
 
 
     private String code;
@@ -16,6 +18,7 @@ public enum ResultEnum {
 
     /**
      * 枚举构造方法默认是private
+     *
      * @param code
      * @param message
      */

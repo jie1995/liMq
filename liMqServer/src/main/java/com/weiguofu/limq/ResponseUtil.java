@@ -1,7 +1,7 @@
 package com.weiguofu.limq;
 
 /**
- * @Description: TODO
+ * @Description: response工具类
  * @Author: GuoFuWei
  * @Date: 2020/9/2 23:48
  * @Version 1.0
@@ -28,6 +28,13 @@ public class ResponseUtil {
         ResponseMessage message = new ResponseMessage<>();
         message.setCode(ResultEnum.FAIL.getCode());
         message.setMessage(ResultEnum.FAIL.getMessage());
+        return message;
+    }
+
+    public static ResponseMessage fail(ResultEnum anEnum) {
+        ResponseMessage message = new ResponseMessage<>();
+        message.setCode(anEnum.getCode());
+        message.setMessage(anEnum.getMessage());
         return message;
     }
 }

@@ -3,7 +3,9 @@ package com.weiguofu.limq.controller;
 
 import com.weiguofu.limq.GlobalInitVar;
 import com.weiguofu.limq.ResponseUtil;
+import com.weiguofu.limq.ResultEnum;
 import com.weiguofu.limq.TaskQueue;
+import com.weiguofu.limq.exception.CustomException;
 import com.weiguofu.limq.service.OneQueueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +37,9 @@ public class MqHandleController {
     @RequestMapping(value = "/produce", method = RequestMethod.POST)
     public Object produce(String qName, String value) throws Exception {
         TaskQueue deque;
-        Optional.ofNullable(deque = GlobalInitVar.allQueue.get(qName)).orElseThrow(() -> new Exception());
+        Optional.ofNullable(deque = GlobalInitVar
+                .allQueue.get(qName))
+                .orElseThrow(() -> new CustomException(ResultEnum.NULL_QUEUE));
         service.save(deque, value);
         return ResponseUtil.success();
     }

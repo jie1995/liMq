@@ -1,8 +1,9 @@
 package com.weiguofu.limq;
 
+import com.weiguofu.limq.exception.CustomException;
 import lombok.Data;
 
-import java.util.List;
+import java.util.Set;
 import java.util.concurrent.BlockingDeque;
 
 /**
@@ -16,15 +17,16 @@ public class TaskQueue {
     /**
      * 一个队列可以绑定多个topic
      */
-    private List<String> topics;
+    private Set<String> topics;
 
     private BlockingDeque queue;
 
-    private void bind(String topic) {
-        GlobalInitVar.allTopic.contains(topic);
+    private void bind(String topic) throws Exception {
+        if (!GlobalInitVar.allTopic.contains(topic)) {
+            throw new CustomException(ResultEnum.NULL_TOPIC);
+        }
         this.topics.add(topic);
     }
-
 
 
 }

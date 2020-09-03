@@ -1,9 +1,9 @@
 package com.weiguofu.limq;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -19,7 +19,7 @@ public interface GlobalInitVar {
     /**
      * 注册的topic
      */
-    List<String> allTopic = new ArrayList<>();
+    Set<String> allTopic = new HashSet<>();
 
 
     /**
