@@ -1,9 +1,9 @@
 package com.weiguofu.limq.service;
 
 import com.weiguofu.limq.GlobalInitVar;
+import com.weiguofu.limq.TaskQueue;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -23,10 +23,11 @@ public class OneQueueService {
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    public boolean save(BlockingDeque deque, String value) throws ExecutionException, InterruptedException {
+    public boolean save(TaskQueue deque, String value) throws ExecutionException, InterruptedException {
         Future<?> future = GlobalInitVar.excutor.submit(() -> {
-            deque.offer(value);
+            deque.getArrayBlockingQueue().offer(value);
         });
+        // 注意future.get()是阻塞的
         return (Boolean) future.get();
     }
 }

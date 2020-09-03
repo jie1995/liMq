@@ -3,7 +3,6 @@ package com.weiguofu.limq;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -16,9 +15,10 @@ import java.util.concurrent.TimeUnit;
 public interface GlobalInitVar {
 
     /**
-     * 存放所有队列
+     * 存放所有队列(包括点对点,topic队列)
      */
-    Map<String, BlockingDeque<String>> allQueue = new HashMap<>();
+    Map<String, TaskQueue> allQueue = new HashMap<>();
+
 
     /**
      * 线程池
