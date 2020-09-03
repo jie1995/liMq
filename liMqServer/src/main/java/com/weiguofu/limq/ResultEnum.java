@@ -9,7 +9,10 @@ public enum ResultEnum {
 
     SUCCESS("201", "消息处理成功"),
     FAIL("501", "消息处理失败"),
+
     NULL_QUEUE("502", "队列不存在"),
+    REPEAT_QUEUE("504", "队列名已经存在"),
+
     NULL_TOPIC("503", "TOPIC不存在");
 
 

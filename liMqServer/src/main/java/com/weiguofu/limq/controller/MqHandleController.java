@@ -55,7 +55,7 @@ public class MqHandleController {
     @RequestMapping(value = "/declareQueue", method = RequestMethod.POST)
     public Object declareQueue(String qName) throws Exception {
         if (GlobalInitVar.allQueue.keySet().contains(qName)) {
-            throw new Exception("");
+            throw new CustomException(ResultEnum.REPEAT_QUEUE);
         }
         GlobalInitVar.allQueue.put(qName, new TaskQueue());
         return ResponseUtil.success();
