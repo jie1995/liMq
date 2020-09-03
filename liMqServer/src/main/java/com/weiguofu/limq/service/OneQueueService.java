@@ -17,7 +17,7 @@ import java.util.concurrent.Future;
 public class OneQueueService {
 
     /**
-     * 异步存入消息，将线程池中异常抛出
+     * 阻塞且将线程池中异常抛出,可靠的
      *
      * @param value
      * @throws ExecutionException
@@ -25,9 +25,25 @@ public class OneQueueService {
      */
     public boolean save(TaskQueue deque, String value) throws ExecutionException, InterruptedException {
         Future<?> future = GlobalInitVar.excutor.submit(() -> {
-            deque.getQueue().offer(value);
+            try {
+                deque.getQueue().put(value);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         });
         // 注意future.get()是阻塞的
         return (Boolean) future.get();
+    }
+
+
+    /**
+     *  消息快速落地,不可靠的
+     *
+     * @param value
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    public void quickSave(TaskQueue deque, String value) {
+        GlobalInitVar.excutor.execute(() -> deque.getQueue().offer(value));
     }
 }

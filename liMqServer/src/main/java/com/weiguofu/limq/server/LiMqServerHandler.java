@@ -1,4 +1,4 @@
-package com.weiguofu.limq.controller;
+package com.weiguofu.limq.server;
 
 
 import com.weiguofu.limq.GlobalInitVar;
@@ -7,10 +7,13 @@ import com.weiguofu.limq.ResultEnum;
 import com.weiguofu.limq.TaskQueue;
 import com.weiguofu.limq.exception.CustomException;
 import com.weiguofu.limq.service.OneQueueService;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.handler.codec.http.HttpObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
@@ -21,8 +24,8 @@ import java.util.Optional;
  * @Version 1.0
  */
 
-@RestController
-public class MqHandleController {
+@Component
+public class LiMqServerHandler extends SimpleChannelInboundHandler<HttpObject> {
 
     @Autowired
     private OneQueueService service;
@@ -35,12 +38,18 @@ public class MqHandleController {
      * @return
      */
     @RequestMapping(value = "/produce", method = RequestMethod.POST)
-    public Object produce(String qName, String value) throws Exception {
+    public Object produce(String qName,
+                          Boolean reliable,
+                          String value) throws Exception {
         TaskQueue deque;
         Optional.ofNullable(deque = GlobalInitVar
                 .allQueue.get(qName))
                 .orElseThrow(() -> new CustomException(ResultEnum.NULL_QUEUE));
-        service.save(deque, value);
+        if (reliable) {
+            service.save(deque, value);
+        } else {
+            service.quickSave(deque, value);
+        }
         return ResponseUtil.success();
     }
 
@@ -62,4 +71,8 @@ public class MqHandleController {
     }
 
 
+    @Override
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, HttpObject httpObject) throws Exception {
+
+    }
 }
