@@ -11,17 +11,17 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.util.CharsetUtil;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @Author: GuoFuWei
  * @Date: 2020/9/3 13:26
  * @Version 1.0
  */
-//@Slf4j
+@Slf4j
 public class LimqClient {
-    private static final int port = 9003;
 
-    public static void main(String[] args) throws InterruptedException {
+    public void start(String port, String address) throws InterruptedException {
         Bootstrap bootstrap = new Bootstrap();
         NioEventLoopGroup group = new NioEventLoopGroup();
 
@@ -37,18 +37,30 @@ public class LimqClient {
                 });
 
         Channel channel = bootstrap.connect("127.0.0.1", 9003).channel();
-
-        while (true) {
-            ProduceParam produceParam = new ProduceParam("queueA", true, "hello,world");
-            RequestMessage<ProduceParam> rm = new RequestMessage();
-            rm.setMessageId(UuidUtil.generateUuid());
-            rm.setMethodName("produce");
-            rm.setTimestamp(System.currentTimeMillis());
-            rm.setParam(produceParam);
-            Gson gson = new Gson();
-            System.out.println("发送消息:" + gson.toJson(rm));
-            channel.writeAndFlush(gson.toJson(rm));
-            Thread.sleep(5000);
-        }
+        NettyConfig.channel = channel;
     }
+
+    public void produce(String qName, boolean reliable, String value) {
+        ProduceParam produceParam = new ProduceParam(qName, reliable, value);
+        RequestMessage<ProduceParam> rm = new RequestMessage();
+        rm.setMessageId(UuidUtil.generateUuid());
+        rm.setMethodName("produce");
+        rm.setTimestamp(System.currentTimeMillis());
+        rm.setParam(produceParam);
+        Gson gson = new Gson();
+        log.info("投递消息:" + gson.toJson(rm));
+        NettyConfig.channel.writeAndFlush(gson.toJson(rm));
+    }
+
+    public void declareQueue(String qName) {
+        RequestMessage<String> rm = new RequestMessage();
+        rm.setMessageId(UuidUtil.generateUuid());
+        rm.setMethodName("declareQueue");
+        rm.setTimestamp(System.currentTimeMillis());
+        rm.setParam(qName);
+        Gson gson = new Gson();
+        log.info("投递消息:" + gson.toJson(rm));
+        NettyConfig.channel.writeAndFlush(gson.toJson(rm));
+    }
+
 }

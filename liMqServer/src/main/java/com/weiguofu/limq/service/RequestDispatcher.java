@@ -1,5 +1,6 @@
 package com.weiguofu.limq.service;
 
+import com.google.gson.Gson;
 import com.weiguofu.limq.ResponseUtil;
 import com.weiguofu.limqcommon.RequestMessage;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +26,8 @@ public class RequestDispatcher {
         Object obj = clazz.getConstructor().newInstance();
         for (Method m : methodArray) {
             if (m.getName().equals(requestMessage.getMethodName())) {
-                Object res = m.invoke(obj, requestMessage.getParam().toString());
+                Gson gson = new Gson();
+                Object res = m.invoke(obj, gson.toJson(requestMessage));
                 return res;
             }
         }

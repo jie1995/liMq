@@ -34,6 +34,7 @@ public class LiMqServerHandler extends SimpleChannelInboundHandler<String> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String s) throws Exception {
         Gson gson = new Gson();
+        log.info("s:{}", s);
         RequestMessage requestMessage = gson.fromJson(s, RequestMessage.class);
         Object res = requestDispatcher.requestHandle(requestMessage);
         ctx.channel().writeAndFlush(gson.toJson(res));
@@ -61,5 +62,19 @@ public class LiMqServerHandler extends SimpleChannelInboundHandler<String> {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         log.info("客户端与服务端连接关闭");
+    }
+
+    /**
+     * 异常捕获处理方法
+     */
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        // Close the connection when an exception is raised.
+        cause.printStackTrace();
+        Gson gson = new Gson();
+        //CustomException customException = (CustomException) cause;
+        //ctx.channel().writeAndFlush(gson.toJson(ResponseUtil.fail(customException.getAnEnum())));
+        ctx.channel().writeAndFlush(cause.getCause().toString());
+        //ctx.close();
     }
 }

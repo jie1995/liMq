@@ -1,13 +1,14 @@
 package com.weiguofu.limq.service;
 
+import com.google.gson.Gson;
 import com.weiguofu.limq.GlobalInitVar;
 import com.weiguofu.limq.ResponseUtil;
 import com.weiguofu.limq.ResultEnum;
 import com.weiguofu.limq.TaskQueue;
 import com.weiguofu.limq.exception.CustomException;
+import com.weiguofu.limqcommon.RequestMessage;
 import com.weiguofu.limqcommon.paramDto.ProduceParam;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -22,27 +23,30 @@ import java.util.Optional;
 @Component
 public class LimqRequestReceive {
 
-    @Autowired
-    private OneQueueService service;
+    private OneQueueService service = new OneQueueService();
 
 
     /**
      * 点对点
      *
-     * @param produceParam
+     * @param requestMessage
      * @return
      */
-    public Object produce(String produceParam) throws Exception {
-        log.info("消息投递:{}",produceParam.toString());
-//        TaskQueue deque;
-//        Optional.ofNullable(deque = GlobalInitVar
-//                .allQueue.get(qName))
-//                .orElseThrow(() -> new CustomException(ResultEnum.NULL_QUEUE));
-//        if (reliable) {
-//            service.save(deque, value);
-//        } else {
-//            service.quickSave(deque, value);
-//        }
+    public Object produce(String requestMessage) throws Exception {
+        log.info("消息投递:{}", requestMessage);
+        Gson gson = new Gson();
+        RequestMessage rm = gson.fromJson(requestMessage, RequestMessage.class);
+        //先把里面的参数转成json,再转成ProduceParam
+        ProduceParam pp = gson.fromJson(gson.toJson(rm.getParam()), ProduceParam.class);
+        TaskQueue deque;
+        Optional.ofNullable(deque = GlobalInitVar
+                .allQueue.get(pp.getQName()))
+                .orElseThrow(() -> new CustomException(ResultEnum.NULL_QUEUE));
+        if (pp.getReliable()) {
+            service.save(deque, pp.getValue());
+        } else {
+            service.quickSave(deque, pp.getValue());
+        }
         return ResponseUtil.success();
     }
 
@@ -50,11 +54,14 @@ public class LimqRequestReceive {
     /**
      * 声明队列
      *
-     * @param qName
+     * @param requestMessage
      * @return
      * @throws Exception
      */
-    public Object declareQueue(String qName) throws Exception {
+    public Object declareQueue(String requestMessage) throws Exception {
+        Gson gson = new Gson();
+        RequestMessage rm = gson.fromJson(requestMessage, RequestMessage.class);
+        String qName = (String) rm.getParam();
         if (GlobalInitVar.allQueue.keySet().contains(qName)) {
             throw new CustomException(ResultEnum.REPEAT_QUEUE);
         }
