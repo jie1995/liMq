@@ -8,7 +8,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -23,10 +22,9 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class LiMqServerHandler extends SimpleChannelInboundHandler<String> {
 
-
-
     private  RequestDispatcher requestDispatcher;
 
+//    注入是null
 //    @Autowired
 //    public LiMqServerHandler(RequestDispatcher requestDispatcher) {
 //        LiMqServerHandler.requestDispatcher = requestDispatcher;
@@ -34,10 +32,17 @@ public class LiMqServerHandler extends SimpleChannelInboundHandler<String> {
 
 
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, String s) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, String s) throws Exception {
         Gson gson = new Gson();
-        log.info("接收到消息:{}", s);
         RequestMessage requestMessage = gson.fromJson(s, RequestMessage.class);
-        requestDispatcher.requestHandle(requestMessage);
+        Object res = requestDispatcher.requestHandle(requestMessage);
+        ctx.channel().writeAndFlush(gson.toJson(res));
+    }
+
+
+    @Override
+    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+        log.info("消息接收完毕");
+        //ctx.flush().close().sync();
     }
 }

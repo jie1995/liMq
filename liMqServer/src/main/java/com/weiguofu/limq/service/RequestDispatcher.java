@@ -1,5 +1,6 @@
 package com.weiguofu.limq.service;
 
+import com.weiguofu.limq.ResponseUtil;
 import com.weiguofu.limqcommon.RequestMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -17,16 +18,17 @@ import java.lang.reflect.Method;
 @Component
 public class RequestDispatcher {
 
-    public void requestHandle(RequestMessage requestMessage) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    public Object requestHandle(RequestMessage requestMessage) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         String className = requestMessage.getClassName();
-        Class<LimqRequestRecive> clazz = (Class<LimqRequestRecive>) Class.forName(className);
+        Class<LimqRequestReceive> clazz = (Class<LimqRequestReceive>) Class.forName(className);
         Method[] methodArray = clazz.getDeclaredMethods();
         Object obj = clazz.getConstructor().newInstance();
         for (Method m : methodArray) {
             if (m.getName().equals(requestMessage.getMethodName())) {
-                log.info("请求参数:{}", requestMessage.getParam());
-                m.invoke(obj, requestMessage.getParam().toString());
+                Object res = m.invoke(obj, requestMessage.getParam().toString());
+                return res;
             }
         }
+        return ResponseUtil.fail();
     }
 }

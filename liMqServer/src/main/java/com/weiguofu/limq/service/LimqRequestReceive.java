@@ -20,7 +20,7 @@ import java.util.Optional;
  */
 @Slf4j
 @Component
-public class LimqRequestRecive {
+public class LimqRequestReceive {
 
     @Autowired
     private OneQueueService service;
@@ -33,7 +33,7 @@ public class LimqRequestRecive {
      * @return
      */
     public Object produce(String produceParam) throws Exception {
-        log.info("消息投递...:{}",produceParam.toString());
+        log.info("消息投递:{}",produceParam.toString());
 //        TaskQueue deque;
 //        Optional.ofNullable(deque = GlobalInitVar
 //                .allQueue.get(qName))

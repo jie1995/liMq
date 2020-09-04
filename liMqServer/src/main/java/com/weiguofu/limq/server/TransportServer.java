@@ -21,7 +21,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class TransportServer implements ApplicationListener<ContextRefreshedEvent> {
 
-    //@Value("${server.netty.transport}")
     private int port=9003;
 
     public void serverListener() throws InterruptedException {
