@@ -9,6 +9,7 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.string.StringEncoder;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @Description: TODO
@@ -16,6 +17,7 @@ import io.netty.handler.codec.string.StringEncoder;
  * @Date: 2020/9/3 13:26
  * @Version 1.0
  */
+//@Slf4j
 public class LimqClient {
     private static final int port = 9003;
 
@@ -42,6 +44,7 @@ public class LimqClient {
             rm.setTimestamp(System.currentTimeMillis());
             rm.setParam(produceParam);
             Gson gson = new Gson();
+            System.out.println("发送消息:"+gson.toJson(rm));
             channel.writeAndFlush(gson.toJson(rm));
             Thread.sleep(2000);
         }

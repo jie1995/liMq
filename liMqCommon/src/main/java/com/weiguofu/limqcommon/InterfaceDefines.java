@@ -11,7 +11,7 @@ public interface InterfaceDefines {
     /**
      * 类全限定名
      */
-    String CLASS_NAME = "com.weiguofu.limq.server.LiMqServerHandler";
+    String CLASS_NAME = "com.weiguofu.limq.service.LimqRequestRecive";
 
 
     /**

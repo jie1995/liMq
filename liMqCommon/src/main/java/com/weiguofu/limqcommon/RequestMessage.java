@@ -32,5 +32,5 @@ public class RequestMessage<T> {
     private String methodName;
 
 
-    private static final String CLASS_NAME = InterfaceDefines.CLASS_NAME;
+    private final String className = InterfaceDefines.CLASS_NAME;
 }
