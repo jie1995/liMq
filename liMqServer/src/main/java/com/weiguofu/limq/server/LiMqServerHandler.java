@@ -42,7 +42,24 @@ public class LiMqServerHandler extends SimpleChannelInboundHandler<String> {
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+        ctx.flush();
         log.info("消息接收完毕");
         //ctx.flush().close().sync();
+    }
+
+    /**
+     * 客户端与服务端创建连接的时候调用
+     */
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        log.info("客户端与服务端建立连接");
+    }
+
+    /**
+     * 客户端与服务端断开连接时调用
+     */
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        log.info("客户端与服务端连接关闭");
     }
 }

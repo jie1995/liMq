@@ -1,6 +1,5 @@
 package com.weiguofu.limq;
 
-import java.util.Random;
 import java.util.UUID;
 
 /**
