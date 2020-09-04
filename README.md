@@ -9,6 +9,7 @@ netty+blockingQueue实现的简单mq
 ### 待解决：
    1. 如何整合spring？
    2. 客户端请求调用封装 
+   3. 粘包拆包
     
    
 ###其他：
