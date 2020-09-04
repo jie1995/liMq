@@ -2,7 +2,7 @@ package com.weiguofu.limq;
 
 
 import com.google.gson.Gson;
-import com.weiguofu.limqcommon.ResponseMessage;
+import com.weiguofu.limqcommon.MessageWrapper;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.AllArgsConstructor;
@@ -17,14 +17,14 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @AllArgsConstructor
-public class LiMqClientHandler extends SimpleChannelInboundHandler<String> {
+public class LiMqClientHandler extends SimpleChannelInboundHandler<MessageWrapper> {
 
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, String s) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, MessageWrapper mw) throws Exception {
         Gson gson = new Gson();
-        ResponseMessage responseMessage = gson.fromJson(s, ResponseMessage.class);
-        log.info("响应消息:{}",responseMessage);
+        //MessageWrapper responseMessage = gson.fromJson(s, MessageWrapper.class);
+        log.info("响应消息:{}",mw.toString());
     }
 
 

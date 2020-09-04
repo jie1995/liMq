@@ -1,4 +1,4 @@
-package com.weiguofu.limq;
+package com.weiguofu.limqcommon;
 
 import java.util.UUID;
 

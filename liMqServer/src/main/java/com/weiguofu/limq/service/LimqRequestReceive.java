@@ -6,8 +6,9 @@ import com.weiguofu.limq.ResponseUtil;
 import com.weiguofu.limq.ResultEnum;
 import com.weiguofu.limq.TaskQueue;
 import com.weiguofu.limq.exception.CustomException;
-import com.weiguofu.limqcommon.RequestMessage;
-import com.weiguofu.limqcommon.paramDto.ProduceParam;
+import com.weiguofu.limqcommon.MessageWrapper;
+import com.weiguofu.limqcommon.messageDto.RequestMessage;
+import com.weiguofu.limqcommon.messageDto.requestParamDto.ProduceParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -47,7 +48,7 @@ public class LimqRequestReceive {
         } else {
             service.quickSave(deque, pp.getValue());
         }
-        return ResponseUtil.success();
+        return MessageWrapper.wrapperMessage(ResponseUtil.success());
     }
 
 

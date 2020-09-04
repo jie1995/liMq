@@ -1,4 +1,4 @@
-package com.weiguofu.limqcommon;
+package com.weiguofu.limqcommon.messageDto;
 
 import lombok.Data;
 
@@ -11,7 +11,6 @@ import java.io.Serializable;
 public class ResponseMessage<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
 
     /**
      * 返回码

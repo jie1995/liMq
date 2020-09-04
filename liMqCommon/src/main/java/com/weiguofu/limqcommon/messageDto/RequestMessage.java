@@ -1,36 +1,30 @@
-package com.weiguofu.limqcommon;
+package com.weiguofu.limqcommon.messageDto;
 
+import com.weiguofu.limqcommon.InterfaceDefines;
 import lombok.Data;
 
 /**
- * @Description: 通信消息体
+ * @Description: TODO
  * @Author: GuoFuWei
- * @Date: 2020/9/3 22:42
+ * @Date: 2020/9/4 23:11
  * @Version 1.0
  */
 @Data
 public class RequestMessage<T> {
 
-    /**
-     * 消息ID, UUID
-     */
-    private String messageId;
 
     /**
-     * 请求参数，json格式
+     * 请求参数
      */
     private T param;
-
-    /**
-     * 消息产生时间戳
-     */
-    private Long timestamp;
 
     /**
      * 方法名称
      */
     private String methodName;
 
-
+    /**
+     * 类全限定名
+     */
     private final String className = InterfaceDefines.CLASS_NAME;
 }

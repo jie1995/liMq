@@ -1,17 +1,21 @@
 package com.weiguofu.limq;
 
 import com.google.gson.Gson;
-import com.weiguofu.limqcommon.RequestMessage;
-import com.weiguofu.limqcommon.paramDto.ProduceParam;
+import com.weiguofu.limq.codeh.ResponseMessageDecoder;
+import com.weiguofu.limq.codeh.RequestMessageEncoder;
+import com.weiguofu.limqcommon.InterfaceDefines;
+import com.weiguofu.limqcommon.MessageWrapper;
+import com.weiguofu.limqcommon.Spliter;
+import com.weiguofu.limqcommon.UuidUtil;
+import com.weiguofu.limqcommon.messageDto.RequestMessage;
+import com.weiguofu.limqcommon.messageDto.requestParamDto.ProduceParam;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
-import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
+
 
 /**
  * @Author: GuoFuWei
@@ -30,9 +34,13 @@ public class LimqClient {
                 .handler(new ChannelInitializer<Channel>() {
                     @Override
                     protected void initChannel(Channel ch) {
-                        ch.pipeline().addLast(new StringDecoder(CharsetUtil.UTF_8));
-                        ch.pipeline().addLast(new StringEncoder(CharsetUtil.UTF_8));
-                        ch.pipeline().addLast(new LiMqClientHandler());
+                        ch.pipeline()
+                                .addLast(new Spliter())
+                                //.addLast(new StringDecoder(CharsetUtil.UTF_8))
+                                //.addLast(new StringEncoder(CharsetUtil.UTF_8))
+                                .addLast(new RequestMessageEncoder())
+                                .addLast(new ResponseMessageDecoder())
+                                .addLast(new LiMqClientHandler());
                     }
                 });
 
@@ -42,25 +50,27 @@ public class LimqClient {
 
     public void produce(String qName, boolean reliable, String value) {
         ProduceParam produceParam = new ProduceParam(qName, reliable, value);
-        RequestMessage<ProduceParam> rm = new RequestMessage();
-        rm.setMessageId(UuidUtil.generateUuid());
-        rm.setMethodName("produce");
-        rm.setTimestamp(System.currentTimeMillis());
+        RequestMessage<ProduceParam> rm = new RequestMessage<>();
+        MessageWrapper<ProduceParam> mw = new MessageWrapper();
         rm.setParam(produceParam);
+        rm.setMethodName(InterfaceDefines.M_PRODUCE);
+        mw.setMessageId(UuidUtil.generateUuid());
+        mw.setTimestamp(System.currentTimeMillis());
         Gson gson = new Gson();
         log.info("投递消息:" + gson.toJson(rm));
-        NettyConfig.channel.writeAndFlush(gson.toJson(rm));
+        NettyConfig.channel.writeAndFlush(mw);
     }
 
     public void declareQueue(String qName) {
-        RequestMessage<String> rm = new RequestMessage();
-        rm.setMessageId(UuidUtil.generateUuid());
-        rm.setMethodName("declareQueue");
-        rm.setTimestamp(System.currentTimeMillis());
+        MessageWrapper<String> mw = new MessageWrapper();
+        RequestMessage<String> rm = new RequestMessage<>();
+        rm.setMethodName(InterfaceDefines.M_DECLAREQUEUE);
         rm.setParam(qName);
+        mw.setMessageId(UuidUtil.generateUuid());
+        mw.setTimestamp(System.currentTimeMillis());
         Gson gson = new Gson();
         log.info("投递消息:" + gson.toJson(rm));
-        NettyConfig.channel.writeAndFlush(gson.toJson(rm));
+        NettyConfig.channel.writeAndFlush(mw);
     }
 
 }

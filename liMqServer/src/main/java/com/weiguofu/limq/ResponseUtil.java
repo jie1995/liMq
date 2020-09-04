@@ -1,6 +1,6 @@
 package com.weiguofu.limq;
 
-import com.weiguofu.limqcommon.ResponseMessage;
+import com.weiguofu.limqcommon.messageDto.ResponseMessage;
 
 /**
  * @Description: response工具类

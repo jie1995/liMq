@@ -1,10 +1,11 @@
 package com.weiguofu.limq.server;
 
+import com.weiguofu.limq.codeh.ResponseMessageEncoder;
+import com.weiguofu.limq.codeh.RequestMessageDecoder;
+import com.weiguofu.limq.service.RequestDispatcher;
+import com.weiguofu.limqcommon.Spliter;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +39,18 @@ public class TransportServer implements ApplicationListener<ContextRefreshedEven
                     .childOption(ChannelOption.SO_KEEPALIVE, true)
                     .group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
-                    .childHandler(new ServerInitializer());
+                    .childHandler(new ChannelInitializer<Channel>() {
+                        @Override
+                        protected void initChannel(Channel ch) throws Exception {
+                            ch.pipeline()
+                                    .addLast(new Spliter())
+                                    .addLast(new RequestMessageDecoder())
+                                    .addLast(new ResponseMessageEncoder())
+                                    //.addLast("stringDecoder", new StringDecoder(CharsetUtil.UTF_8))
+                                    //.addLast("stringEncoder", new StringEncoder(CharsetUtil.UTF_8))
+                                    .addLast("LiMqServerHandler", new LiMqServerHandler(new RequestDispatcher()));
+                        }
+                    });
             ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
             channelFuture.channel().closeFuture().sync();
         } finally {

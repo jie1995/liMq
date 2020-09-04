@@ -1,7 +1,6 @@
-package com.weiguofu.limqcommon.paramDto;
+package com.weiguofu.limqcommon.messageDto.requestParamDto;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 
 import java.io.Serializable;
 
