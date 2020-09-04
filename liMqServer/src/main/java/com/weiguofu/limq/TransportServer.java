@@ -1,13 +1,15 @@
-package com.weiguofu.limq.server;
+package com.weiguofu.limq;
 
-import com.weiguofu.limq.codeh.ResponseMessageEncoder;
 import com.weiguofu.limq.codeh.RequestMessageDecoder;
+import com.weiguofu.limq.codeh.ResponseMessageEncoder;
+import com.weiguofu.limq.server.LiMqServerHandler;
 import com.weiguofu.limq.service.RequestDispatcher;
-import com.weiguofu.limqcommon.Spliter;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -39,11 +41,12 @@ public class TransportServer implements ApplicationListener<ContextRefreshedEven
                     .childOption(ChannelOption.SO_KEEPALIVE, true)
                     .group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
+                    .handler(new LoggingHandler(LogLevel.INFO))
                     .childHandler(new ChannelInitializer<Channel>() {
                         @Override
                         protected void initChannel(Channel ch) throws Exception {
                             ch.pipeline()
-                                    .addLast(new Spliter())
+                                    //.addLast(new Spliter())
                                     .addLast(new RequestMessageDecoder())
                                     .addLast(new ResponseMessageEncoder())
                                     //.addLast("stringDecoder", new StringDecoder(CharsetUtil.UTF_8))

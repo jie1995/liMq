@@ -4,6 +4,7 @@ package com.weiguofu.limq.codeh;
 import com.weiguofu.limqcommon.Constants;
 import com.weiguofu.limqcommon.MessageWrapper;
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +13,7 @@ import java.util.List;
 
 
 /**
- * @Description: TODO
+ * @Description: 请求消息解码
  * @Author: GuoFuWei
  * @Date: 2020/9/5 1:54
  * @Version 1.0
@@ -20,7 +21,7 @@ import java.util.List;
 @Slf4j
 public class RequestMessageDecoder extends ByteToMessageDecoder {
     @Override
-    protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) {
+    public void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) {
         log.info("请求消息decode");
         Object decoded = decode(in);
         if (decoded != null) {
