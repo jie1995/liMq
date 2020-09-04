@@ -1,13 +1,14 @@
 package com.weiguofu.limq;
 
+import com.google.gson.Gson;
+import com.weiguofu.limqcommon.RequestMessage;
+import com.weiguofu.limqcommon.paramDto.ProduceParam;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.string.StringEncoder;
-
-import java.util.Date;
 
 /**
  * @Description: TODO
@@ -34,7 +35,14 @@ public class LimqClient {
         Channel channel = bootstrap.connect("127.0.0.1", 9003).channel();
 
         while (true) {
-            channel.writeAndFlush(new Date() + ": hello world!");
+            ProduceParam produceParam = new ProduceParam("queueA", true, "hello,world");
+            RequestMessage<ProduceParam> rm = new RequestMessage();
+            rm.setMessageId(UuidUtil.generateUuid());
+            rm.setMethodName("produce");
+            rm.setTimestamp(System.currentTimeMillis());
+            rm.setParam(produceParam);
+            Gson gson = new Gson();
+            channel.writeAndFlush(gson.toJson(rm));
             Thread.sleep(2000);
         }
     }

@@ -9,7 +9,7 @@ import lombok.Data;
  * @Version 1.0
  */
 @Data
-public class RequestMessage {
+public class RequestMessage<T> {
 
     /**
      * 消息ID, UUID
@@ -17,9 +17,9 @@ public class RequestMessage {
     private String messageId;
 
     /**
-     * 消息内容，可变长字节
+     * 请求参数，json格式
      */
-    private String content;
+    private T param;
 
     /**
      * 消息产生时间戳
