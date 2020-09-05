@@ -33,6 +33,8 @@ public class LimqClient {
 
     /**
      * 奇怪,居然没有执行初始化？
+     * 静态内部类和静态变量不一样:
+     *      静态内部类在使用的时候才会加载
      */
     public static class SingletonHolder {
         private static LimqClient instance = new LimqClient(NettyProperties.host, NettyProperties.port);

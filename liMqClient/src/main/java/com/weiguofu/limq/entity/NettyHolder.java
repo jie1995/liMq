@@ -9,7 +9,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @Description: TODO
  * @Author: GuoFuWei
  * @Date: 2020/9/4 16:47
  * @Version 1.0

@@ -23,7 +23,7 @@ import static com.weiguofu.limq.entity.NettyHolder.excutor;
 import static com.weiguofu.limq.entity.NettyHolder.waitMap;
 
 /**
- * @Description: TODO
+ * @Description: 消息消费核心处理类
  * @Author: GuoFuWei
  * @Date: 2020/9/5 13:42
  * @Version 1.0
@@ -57,7 +57,6 @@ public class MessageConsumer implements ApplicationContextAware {
 
 
     private void pullConsume(String qName, Method method, Class<? extends LimqConsumer> clazz) {
-        log.info("拉取消息:{}", qName);
         RequestMessage<String> rm = new RequestMessage<>();
         rm.setMethodName(InterfaceDefines.M_CONSUME);
         rm.setParam(qName);
@@ -98,7 +97,7 @@ public class MessageConsumer implements ApplicationContextAware {
             });
             try {
                 if (waitMap.keySet().size() == 0) {
-                    Thread.sleep(4000);
+                    Thread.sleep(3000);
                 } else {
                     Thread.sleep(1000);
                 }
