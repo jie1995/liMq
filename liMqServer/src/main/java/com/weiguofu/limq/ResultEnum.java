@@ -10,7 +10,7 @@ public enum ResultEnum {
     SUCCESS("201", "success"),
     FAIL("501", "fail"),
 
-    NULL_QUEUE("502", "queue not exist"),
+    NULL_QUEUE("502", "queue is not exist"),
     REPEAT_QUEUE("504", "queue already exist"),
 
     NULL_TOPIC("503", "TOPIC不存在");

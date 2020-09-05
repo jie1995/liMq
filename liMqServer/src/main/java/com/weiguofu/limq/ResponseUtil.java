@@ -39,4 +39,11 @@ public class ResponseUtil {
         message.setMessage(anEnum.getMessage());
         return message;
     }
+
+    public static ResponseMessage nullQueue(String qName) {
+        ResponseMessage message = new ResponseMessage<>();
+        message.setCode(ResultEnum.NULL_QUEUE.getCode());
+        message.setMessage(qName + ":" + ResultEnum.NULL_QUEUE.getMessage());
+        return message;
+    }
 }

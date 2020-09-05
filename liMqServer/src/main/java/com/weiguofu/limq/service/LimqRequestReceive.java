@@ -4,11 +4,11 @@ import com.google.gson.Gson;
 import com.weiguofu.limq.GlobalInitVar;
 import com.weiguofu.limq.ResponseUtil;
 import com.weiguofu.limq.ResultEnum;
-import com.weiguofu.limq.storage.TaskQueue;
 import com.weiguofu.limq.exception.CustomException;
 import com.weiguofu.limq.messageDto.MessageWrapper;
 import com.weiguofu.limq.messageDto.RequestMessage;
 import com.weiguofu.limq.messageDto.requestParamDto.ProduceParam;
+import com.weiguofu.limq.storage.TaskQueue;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -76,7 +76,7 @@ public class LimqRequestReceive {
         RequestMessage rm = gson.fromJson(requestMessage, RequestMessage.class);
         String qName = (String) rm.getParam();
         if (!GlobalInitVar.allQueue.keySet().contains(qName)) {
-            return MessageWrapper.wrapperMessage(ResponseUtil.fail(ResultEnum.NULL_QUEUE), uuid);
+            return MessageWrapper.wrapperMessage(ResponseUtil.nullQueue(qName), uuid);
         }
         Object obj = GlobalInitVar.allQueue.get(qName).getQueue().take();
         return MessageWrapper.wrapperMessage(ResponseUtil.success(obj), uuid);
