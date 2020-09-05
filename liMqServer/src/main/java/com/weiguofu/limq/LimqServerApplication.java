@@ -2,7 +2,6 @@ package com.weiguofu.limq;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 /**
  * @Description:
@@ -11,13 +10,9 @@ import org.springframework.context.annotation.Bean;
  * @Version 1.0
  */
 @SpringBootApplication
-public class LiMqClientApplication {
-    @Bean
-    public MessageConsumer messageConsumer() {
-        return new MessageConsumer();
-    }
+public class LimqServerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(LiMqClientApplication.class, args);
+        SpringApplication.run(LimqServerApplication.class, args);
     }
 }

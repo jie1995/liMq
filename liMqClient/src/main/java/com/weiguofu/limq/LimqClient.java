@@ -3,6 +3,7 @@ package com.weiguofu.limq;
 import com.google.gson.Gson;
 import com.weiguofu.limq.codeh.MessageDecoder;
 import com.weiguofu.limq.codeh.MessageEncoder;
+import com.weiguofu.limq.handler.LimqClientHandler;
 import com.weiguofu.limq.messageDto.MessageWrapper;
 import com.weiguofu.limq.messageDto.RequestMessage;
 import com.weiguofu.limq.messageDto.requestParamDto.ProduceParam;
@@ -66,7 +67,7 @@ public class LimqClient {
                                 //.addLast(new StringEncoder(CharsetUtil.UTF_8))
                                 .addLast(new MessageEncoder())
                                 .addLast(new MessageDecoder())
-                                .addLast(new LiMqClientHandler());
+                                .addLast(new LimqClientHandler());
                     }
                 });
 

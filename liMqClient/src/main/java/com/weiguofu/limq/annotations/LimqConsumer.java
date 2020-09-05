@@ -6,7 +6,7 @@ package com.weiguofu.limq.annotations;
  * @Date: 2020/9/5 14:54
  * @Version 1.0
  */
-public interface LiMqConsumer {
+public interface LimqConsumer {
     /**
      *
      * @param val

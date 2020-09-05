@@ -1,5 +1,7 @@
-package com.weiguofu.limq;
+package com.weiguofu.limq.storage;
 
+import com.weiguofu.limq.GlobalInitVar;
+import com.weiguofu.limq.ResultEnum;
 import com.weiguofu.limq.exception.CustomException;
 import lombok.Data;
 

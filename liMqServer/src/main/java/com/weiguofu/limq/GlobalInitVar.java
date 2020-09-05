@@ -1,5 +1,7 @@
 package com.weiguofu.limq;
 
+import com.weiguofu.limq.storage.TaskQueue;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;

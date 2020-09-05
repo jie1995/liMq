@@ -1,4 +1,4 @@
-package com.weiguofu.limq;
+package com.weiguofu.limq.handler;
 
 
 import com.weiguofu.limq.messageDto.MessageWrapper;
@@ -19,7 +19,7 @@ import static com.weiguofu.limq.NettyHolder.waitMap;
 
 @Slf4j
 @AllArgsConstructor
-public class LiMqClientHandler extends SimpleChannelInboundHandler<MessageWrapper> {
+public class LimqClientHandler extends SimpleChannelInboundHandler<MessageWrapper> {
 
 
     @Override

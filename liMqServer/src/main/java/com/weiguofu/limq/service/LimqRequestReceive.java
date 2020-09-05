@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.weiguofu.limq.GlobalInitVar;
 import com.weiguofu.limq.ResponseUtil;
 import com.weiguofu.limq.ResultEnum;
-import com.weiguofu.limq.TaskQueue;
+import com.weiguofu.limq.storage.TaskQueue;
 import com.weiguofu.limq.exception.CustomException;
 import com.weiguofu.limq.messageDto.MessageWrapper;
 import com.weiguofu.limq.messageDto.RequestMessage;
@@ -24,7 +24,7 @@ import java.util.Optional;
 @Component
 public class LimqRequestReceive {
 
-    private OneQueueService service = new OneQueueService();
+    private MqQueueService service = new MqQueueService();
 
     private static final Gson gson = new Gson();
 

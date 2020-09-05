@@ -1,7 +1,7 @@
 package com.weiguofu.limq.service;
 
 import com.weiguofu.limq.GlobalInitVar;
-import com.weiguofu.limq.TaskQueue;
+import com.weiguofu.limq.storage.TaskQueue;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ExecutionException;
@@ -14,7 +14,7 @@ import java.util.concurrent.Future;
  * @Version 1.0
  */
 @Service
-public class OneQueueService {
+public class MqQueueService {
 
     /**
      * 阻塞且将线程池中异常抛出,可靠的

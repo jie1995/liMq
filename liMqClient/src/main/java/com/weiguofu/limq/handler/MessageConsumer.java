@@ -1,7 +1,8 @@
-package com.weiguofu.limq;
+package com.weiguofu.limq.handler;
 
 import com.google.gson.Gson;
-import com.weiguofu.limq.annotations.LiMqConsumer;
+import com.weiguofu.limq.*;
+import com.weiguofu.limq.annotations.LimqConsumer;
 import com.weiguofu.limq.annotations.LimqListener;
 import com.weiguofu.limq.messageDto.MessageWrapper;
 import com.weiguofu.limq.messageDto.RequestMessage;
@@ -33,7 +34,7 @@ public class MessageConsumer implements ApplicationContextAware {
         log.info("建立netty连接,开始监听队列...");
         excutor.execute(() -> new LimqClient("127.0.0.1", 9003));
         //收集所有的listener
-        Map<String, LiMqConsumer> map = applicationContext.getBeansOfType(LiMqConsumer.class);
+        Map<String, LimqConsumer> map = applicationContext.getBeansOfType(LimqConsumer.class);
         map.forEach((k, v) -> {
             Class clazz = v.getClass();
             try {
@@ -52,7 +53,7 @@ public class MessageConsumer implements ApplicationContextAware {
     }
 
 
-    private void pullConsume(String qName, Method method, Class<? extends LiMqConsumer> clazz) {
+    private void pullConsume(String qName, Method method, Class<? extends LimqConsumer> clazz) {
         log.info("拉取消息:{}", qName);
         RequestMessage<String> rm = new RequestMessage<>();
         rm.setMethodName(InterfaceDefines.M_CONSUME);

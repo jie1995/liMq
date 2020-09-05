@@ -2,8 +2,8 @@ package com.weiguofu.limq;
 
 import com.weiguofu.limq.codeh.MessageDecoder;
 import com.weiguofu.limq.codeh.MessageEncoder;
-import com.weiguofu.limq.server.LiMqServerHandler;
-import com.weiguofu.limq.service.RequestDispatcher;
+import com.weiguofu.limq.handler.LimqServerHandler;
+import com.weiguofu.limq.handler.RequestDispatcher;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public class TransportServer implements ApplicationListener<ContextRefreshedEvent> {
+public class LimqServer implements ApplicationListener<ContextRefreshedEvent> {
 
     private int port=9003;
 
@@ -49,7 +49,7 @@ public class TransportServer implements ApplicationListener<ContextRefreshedEven
                                     .addLast(new MessageEncoder())
                                     //.addLast("stringDecoder", new StringDecoder(CharsetUtil.UTF_8))
                                     //.addLast("stringEncoder", new StringEncoder(CharsetUtil.UTF_8))
-                                    .addLast("LiMqServerHandler", new LiMqServerHandler(new RequestDispatcher()));
+                                    .addLast("LiMqServerHandler", new LimqServerHandler(new RequestDispatcher()));
                         }
                     });
             ChannelFuture channelFuture = serverBootstrap.bind(port).sync();

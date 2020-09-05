@@ -1,6 +1,6 @@
 package com.weiguofu.limq;
 
-import com.weiguofu.limq.annotations.LiMqConsumer;
+import com.weiguofu.limq.annotations.LimqConsumer;
 import lombok.Data;
 
 import java.lang.reflect.Method;
@@ -16,7 +16,7 @@ public class ReflectDto {
 
    private Method method;
 
-   private Class<? extends LiMqConsumer> clazz;
+   private Class<? extends LimqConsumer> clazz;
 
    private String resultValue;
 }

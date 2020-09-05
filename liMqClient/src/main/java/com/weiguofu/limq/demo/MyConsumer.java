@@ -1,6 +1,6 @@
 package com.weiguofu.limq.demo;
 
-import com.weiguofu.limq.annotations.LiMqConsumer;
+import com.weiguofu.limq.annotations.LimqConsumer;
 import com.weiguofu.limq.annotations.LimqListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class MyConsumer implements LiMqConsumer {
+public class MyConsumer implements LimqConsumer {
 
     @LimqListener(listenQueue = "testQueue")
     @Override

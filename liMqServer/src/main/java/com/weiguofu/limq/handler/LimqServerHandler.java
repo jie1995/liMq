@@ -1,9 +1,8 @@
-package com.weiguofu.limq.server;
+package com.weiguofu.limq.handler;
 
 
-import com.google.gson.Gson;
 import com.weiguofu.limq.messageDto.MessageWrapper;
-import com.weiguofu.limq.service.RequestDispatcher;
+import com.weiguofu.limq.handler.RequestDispatcher;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.AllArgsConstructor;
@@ -20,7 +19,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @AllArgsConstructor
-public class LiMqServerHandler extends SimpleChannelInboundHandler<MessageWrapper> {
+public class LimqServerHandler extends SimpleChannelInboundHandler<MessageWrapper> {
     private  RequestDispatcher requestDispatcher;
 
 //    注入是null
@@ -32,7 +31,6 @@ public class LiMqServerHandler extends SimpleChannelInboundHandler<MessageWrappe
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, MessageWrapper mw) throws Exception {
-        Gson gson = new Gson();
         log.info("MessageWrapper:{}", mw);
         Object res = requestDispatcher.requestHandle(mw);
         ctx.channel().writeAndFlush((MessageWrapper)res);

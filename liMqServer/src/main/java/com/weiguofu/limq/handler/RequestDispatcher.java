@@ -1,9 +1,10 @@
-package com.weiguofu.limq.service;
+package com.weiguofu.limq.handler;
 
 import com.google.gson.Gson;
 import com.weiguofu.limq.ResponseUtil;
 import com.weiguofu.limq.messageDto.MessageWrapper;
 import com.weiguofu.limq.messageDto.RequestMessage;
+import com.weiguofu.limq.service.LimqRequestReceive;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
