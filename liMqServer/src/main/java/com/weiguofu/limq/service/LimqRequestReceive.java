@@ -60,6 +60,7 @@ public class LimqRequestReceive {
      * @throws Exception
      */
     public Object declareQueue(String requestMessage) throws Exception {
+        log.info("declareQueue:{}", requestMessage);
         Gson gson = new Gson();
         RequestMessage rm = gson.fromJson(requestMessage, RequestMessage.class);
         String qName = (String) rm.getParam();
@@ -67,6 +68,6 @@ public class LimqRequestReceive {
             throw new CustomException(ResultEnum.REPEAT_QUEUE);
         }
         GlobalInitVar.allQueue.put(qName, new TaskQueue());
-        return ResponseUtil.success();
+        return MessageWrapper.wrapperMessage(ResponseUtil.success());
     }
 }

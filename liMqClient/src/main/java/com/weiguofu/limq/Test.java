@@ -12,11 +12,8 @@ public class Test {
         LimqClient limqClient = new LimqClient();
         try {
             limqClient.start(null, null);
-            for (;;){
-                limqClient.declareQueue("testQueue".trim());
-                Thread.sleep(5000);
-            }
-
+            limqClient.declareQueue("testQueue".trim());
+            //Thread.sleep(5000);
             //limqClient.produce("testQueue", false, "hello,world");
         } catch (InterruptedException e) {
             e.printStackTrace();

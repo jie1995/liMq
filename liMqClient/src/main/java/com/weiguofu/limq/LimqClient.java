@@ -1,11 +1,10 @@
 package com.weiguofu.limq;
 
 import com.google.gson.Gson;
-import com.weiguofu.limq.codeh.ResponseMessageDecoder;
 import com.weiguofu.limq.codeh.RequestMessageEncoder;
+import com.weiguofu.limq.codeh.ResponseMessageDecoder;
 import com.weiguofu.limqcommon.InterfaceDefines;
 import com.weiguofu.limqcommon.MessageWrapper;
-import com.weiguofu.limqcommon.Spliter;
 import com.weiguofu.limqcommon.UuidUtil;
 import com.weiguofu.limqcommon.messageDto.RequestMessage;
 import com.weiguofu.limqcommon.messageDto.requestParamDto.ProduceParam;
@@ -35,7 +34,7 @@ public class LimqClient {
                     @Override
                     protected void initChannel(Channel ch) {
                         ch.pipeline()
-                                .addLast(new Spliter())
+                                //.addLast(new Spliter())
                                 //.addLast(new StringDecoder(CharsetUtil.UTF_8))
                                 //.addLast(new StringEncoder(CharsetUtil.UTF_8))
                                 .addLast(new RequestMessageEncoder())
@@ -68,8 +67,10 @@ public class LimqClient {
         rm.setParam(qName);
         mw.setMessageId(UuidUtil.generateUuid());
         mw.setTimestamp(System.currentTimeMillis());
+
         Gson gson = new Gson();
-        log.info("投递消息:" + gson.toJson(rm));
+        mw.setMessage(gson.toJson(rm));
+        log.info("投递消息:" + gson.toJson(mw));
         NettyConfig.channel.writeAndFlush(mw);
     }
 

@@ -18,11 +18,9 @@ import java.util.List;
  * @Date: 2020/9/5 1:54
  * @Version 1.0
  */
-@Slf4j
 public class RequestMessageDecoder extends ByteToMessageDecoder {
     @Override
-    public void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) {
-        log.info("请求消息decode");
+    protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) {
         Object decoded = decode(in);
         if (decoded != null) {
             out.add(decoded);

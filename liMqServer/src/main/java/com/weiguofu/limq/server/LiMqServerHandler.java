@@ -21,7 +21,6 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 public class LiMqServerHandler extends SimpleChannelInboundHandler<MessageWrapper> {
-
     private  RequestDispatcher requestDispatcher;
 
 //    注入是null
@@ -34,8 +33,7 @@ public class LiMqServerHandler extends SimpleChannelInboundHandler<MessageWrappe
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, MessageWrapper mw) throws Exception {
         Gson gson = new Gson();
-        log.info("s:{}", mw);
-        //MessageWrapper messageWrapper = gson.fromJson(s, MessageWrapper.class);
+        log.info("MessageWrapper:{}", mw);
         Object res = requestDispatcher.requestHandle(mw);
         ctx.channel().writeAndFlush((MessageWrapper)res);
     }

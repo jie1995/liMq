@@ -22,17 +22,20 @@ public class RequestDispatcher {
 
     public Object requestHandle(MessageWrapper mw) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         String message = mw.getMessage();
+        log.info("message:{}", message);
         Gson gson = new Gson();
-        RequestMessage rm = gson.fromJson(gson.toJson(message), RequestMessage.class);
+        RequestMessage rm = gson.fromJson(message, RequestMessage.class);
         Class<LimqRequestReceive> clazz = (Class<LimqRequestReceive>) Class.forName(rm.getClassName());
         Method[] methodArray = clazz.getDeclaredMethods();
         Object obj = clazz.getConstructor().newInstance();
         for (Method m : methodArray) {
-            if (m.getName().equals(rm.getMethodName())) {
-                Object res = m.invoke(obj, gson.toJson(rm));
+            log.info("current method name:{},receive method name:{}", m.getName(), rm.getMethodName());
+            if (m.getName().equalsIgnoreCase(rm.getMethodName())) {
+                log.info("reflect invoke");
+                Object res = m.invoke(obj, message);
                 return res;
             }
         }
-        return ResponseUtil.fail();
+        return MessageWrapper.wrapperMessage(ResponseUtil.fail());
     }
 }

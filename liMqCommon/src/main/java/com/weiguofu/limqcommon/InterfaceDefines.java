@@ -22,7 +22,7 @@ public interface InterfaceDefines {
     /**
      * 队列声明方法名
      */
-    String M_DECLAREQUEUE = "declareQueue ";
+    String M_DECLAREQUEUE = "declareQueue";
 
 
 }
