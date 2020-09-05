@@ -1,7 +1,5 @@
 package com.weiguofu.limq.demo;
 
-import com.weiguofu.limq.LimqClient;
-
 /**
  * @Description: TODO
  * @Author: GuoFuWei
@@ -11,8 +9,8 @@ import com.weiguofu.limq.LimqClient;
 public class Test {
 
     public static void main(String[] args) {
-        LimqClient limqClient = new LimqClient("127.0.0.1", 9003);
-        limqClient.declareQueue("testQueue".trim());
+        //LimqClient limqClient = LimqClient.Instance();
+        //limqClient.declareQueue("testQueue");
         //limqClient.produce("testQueue", false, "hello,world");
     }
 

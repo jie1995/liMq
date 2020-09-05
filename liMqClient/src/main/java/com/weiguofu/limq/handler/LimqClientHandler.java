@@ -7,8 +7,8 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import static com.weiguofu.limq.NettyHolder.excutor;
-import static com.weiguofu.limq.NettyHolder.waitMap;
+import static com.weiguofu.limq.entity.NettyHolder.excutor;
+import static com.weiguofu.limq.entity.NettyHolder.waitMap;
 
 
 /**

@@ -1,7 +1,7 @@
 package com.weiguofu.limq.demo;
 
-import com.weiguofu.limq.annotations.LimqConsumer;
-import com.weiguofu.limq.annotations.LimqListener;
+import com.weiguofu.limq.facade.LimqConsumer;
+import com.weiguofu.limq.facade.LimqListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

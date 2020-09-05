@@ -1,4 +1,4 @@
-package com.weiguofu.limq.annotations;
+package com.weiguofu.limq.facade;
 
 /**
  * @Description: 监听业务处理必须实现该接口，使用注解也有同样效果

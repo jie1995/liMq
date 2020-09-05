@@ -1,6 +1,6 @@
-package com.weiguofu.limq;
+package com.weiguofu.limq.entity;
 
-import com.weiguofu.limq.annotations.LimqConsumer;
+import com.weiguofu.limq.facade.LimqConsumer;
 import lombok.Data;
 
 import java.lang.reflect.Method;

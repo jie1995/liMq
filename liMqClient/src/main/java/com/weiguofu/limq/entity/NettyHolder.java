@@ -1,4 +1,4 @@
-package com.weiguofu.limq;
+package com.weiguofu.limq.entity;
 
 import io.netty.channel.Channel;
 
@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class NettyHolder {
 
 
-    public static Channel channel;
+    public static volatile Channel channel;
 
     public static  final Map<String, ReflectDto> waitMap= new LinkedHashMap<>();
 

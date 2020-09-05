@@ -1,4 +1,4 @@
-package com.weiguofu.limq.annotations;
+package com.weiguofu.limq.facade;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

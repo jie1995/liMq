@@ -1,9 +1,13 @@
 package com.weiguofu.limq.handler;
 
 import com.google.gson.Gson;
-import com.weiguofu.limq.*;
-import com.weiguofu.limq.annotations.LimqConsumer;
-import com.weiguofu.limq.annotations.LimqListener;
+import com.weiguofu.limq.InterfaceDefines;
+import com.weiguofu.limq.LimqClient;
+import com.weiguofu.limq.UuidUtil;
+import com.weiguofu.limq.entity.NettyHolder;
+import com.weiguofu.limq.entity.ReflectDto;
+import com.weiguofu.limq.facade.LimqConsumer;
+import com.weiguofu.limq.facade.LimqListener;
 import com.weiguofu.limq.messageDto.MessageWrapper;
 import com.weiguofu.limq.messageDto.RequestMessage;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +19,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import static com.weiguofu.limq.NettyHolder.excutor;
-import static com.weiguofu.limq.NettyHolder.waitMap;
+import static com.weiguofu.limq.entity.NettyHolder.excutor;
+import static com.weiguofu.limq.entity.NettyHolder.waitMap;
 
 /**
  * @Description: TODO
@@ -31,8 +35,7 @@ public class MessageConsumer implements ApplicationContextAware {
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        log.info("建立netty连接,开始监听队列...");
-        excutor.execute(() -> new LimqClient("127.0.0.1", 9003));
+        excutor.execute(() -> LimqClient.Instance());
         //收集所有的listener
         Map<String, LimqConsumer> map = applicationContext.getBeansOfType(LimqConsumer.class);
         map.forEach((k, v) -> {
