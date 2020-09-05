@@ -9,15 +9,9 @@ package com.weiguofu.limq;
 public class Test {
 
     public static void main(String[] args) {
-        LimqClient limqClient = new LimqClient();
-        try {
-            limqClient.start(null, null);
-            limqClient.declareQueue("testQueue".trim());
-            //Thread.sleep(5000);
-            //limqClient.produce("testQueue", false, "hello,world");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        LimqClient limqClient = new LimqClient("127.0.0.1", 9003);
+        limqClient.declareQueue("testQueue".trim());
+        //limqClient.produce("testQueue", false, "hello,world");
     }
 
 }

@@ -1,4 +1,4 @@
-package com.weiguofu.limqcommon.messageDto;
+package com.weiguofu.limq.messageDto;
 
 import lombok.Data;
 

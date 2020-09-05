@@ -2,7 +2,6 @@ package com.weiguofu.limq;
 
 
 import com.google.gson.Gson;
-import com.weiguofu.limqcommon.MessageWrapper;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.AllArgsConstructor;

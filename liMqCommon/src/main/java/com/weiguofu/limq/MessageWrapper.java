@@ -1,7 +1,6 @@
-package com.weiguofu.limqcommon;
+package com.weiguofu.limq;
 
 import com.google.gson.Gson;
-import com.weiguofu.limqcommon.messageDto.ResponseMessage;
 import lombok.Data;
 
 /**
@@ -28,7 +27,7 @@ public class MessageWrapper<T> {
      */
     private Long timestamp;
 
-    public static MessageWrapper wrapperMessage(ResponseMessage responseMessage) {
+    public static <T> MessageWrapper wrapperMessage(T responseMessage) {
         Gson g = new Gson();
         MessageWrapper mw = new MessageWrapper();
         mw.setMessageId(UuidUtil.generateUuid());
@@ -36,6 +35,5 @@ public class MessageWrapper<T> {
         mw.setTimestamp(System.currentTimeMillis());
         return mw;
     }
-
 
 }

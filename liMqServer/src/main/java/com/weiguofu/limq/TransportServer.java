@@ -1,10 +1,9 @@
 package com.weiguofu.limq;
 
-import com.weiguofu.limq.codeh.RequestMessageDecoder;
-import com.weiguofu.limq.codeh.ResponseMessageEncoder;
+import com.weiguofu.limq.codeh.MessageDecoder;
+import com.weiguofu.limq.codeh.MessageEncoder;
 import com.weiguofu.limq.server.LiMqServerHandler;
 import com.weiguofu.limq.service.RequestDispatcher;
-import com.weiguofu.limqcommon.Spliter;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -46,8 +45,8 @@ public class TransportServer implements ApplicationListener<ContextRefreshedEven
                         protected void initChannel(Channel ch) throws Exception {
                             ch.pipeline()
                                     .addLast(new Spliter())
-                                    .addLast(new RequestMessageDecoder())
-                                    .addLast(new ResponseMessageEncoder())
+                                    .addLast(new MessageDecoder())
+                                    .addLast(new MessageEncoder())
                                     //.addLast("stringDecoder", new StringDecoder(CharsetUtil.UTF_8))
                                     //.addLast("stringEncoder", new StringEncoder(CharsetUtil.UTF_8))
                                     .addLast("LiMqServerHandler", new LiMqServerHandler(new RequestDispatcher()));

@@ -6,9 +6,9 @@ import com.weiguofu.limq.ResponseUtil;
 import com.weiguofu.limq.ResultEnum;
 import com.weiguofu.limq.TaskQueue;
 import com.weiguofu.limq.exception.CustomException;
-import com.weiguofu.limqcommon.MessageWrapper;
-import com.weiguofu.limqcommon.messageDto.RequestMessage;
-import com.weiguofu.limqcommon.messageDto.requestParamDto.ProduceParam;
+import com.weiguofu.limq.MessageWrapper;
+import com.weiguofu.limq.messageDto.RequestMessage;
+import com.weiguofu.limq.messageDto.requestParamDto.ProduceParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

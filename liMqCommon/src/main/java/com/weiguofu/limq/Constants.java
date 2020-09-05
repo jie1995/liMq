@@ -1,4 +1,4 @@
-package com.weiguofu.limqcommon;
+package com.weiguofu.limq;
 
 import java.nio.charset.Charset;
 

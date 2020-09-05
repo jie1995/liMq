@@ -1,15 +1,15 @@
 package com.weiguofu.limq.codeh;
 
 
-import com.weiguofu.limqcommon.Constants;
-import com.weiguofu.limqcommon.MessageWrapper;
+import com.weiguofu.limq.Constants;
+import com.weiguofu.limq.MessageWrapper;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class ResponseMessageEncoder extends MessageToByteEncoder<MessageWrapper> {
+public class MessageEncoder extends MessageToByteEncoder<MessageWrapper> {
 
     @Override
     protected void encode(ChannelHandlerContext ctx, MessageWrapper messageWrapper, ByteBuf out) {

@@ -1,4 +1,4 @@
-package com.weiguofu.limqcommon;
+package com.weiguofu.limq;
 
 /**
  * @Description: 基于SPI机制, 类全限定名及方法名称

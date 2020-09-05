@@ -1,4 +1,4 @@
-package com.weiguofu.limqcommon.messageDto.requestParamDto;
+package com.weiguofu.limq.messageDto.requestParamDto;
 
 import lombok.AllArgsConstructor;
 

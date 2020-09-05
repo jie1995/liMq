@@ -3,7 +3,7 @@ package com.weiguofu.limq.server;
 
 import com.google.gson.Gson;
 import com.weiguofu.limq.service.RequestDispatcher;
-import com.weiguofu.limqcommon.MessageWrapper;
+import com.weiguofu.limq.MessageWrapper;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.AllArgsConstructor;
