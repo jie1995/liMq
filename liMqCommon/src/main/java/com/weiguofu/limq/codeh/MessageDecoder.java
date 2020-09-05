@@ -2,7 +2,7 @@ package com.weiguofu.limq.codeh;
 
 
 import com.weiguofu.limq.Constants;
-import com.weiguofu.limq.MessageWrapper;
+import com.weiguofu.limq.messageDto.MessageWrapper;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;

@@ -1,8 +1,12 @@
 package com.weiguofu.limq.service;
 
 import com.google.gson.Gson;
-import com.weiguofu.limq.*;
+import com.weiguofu.limq.GlobalInitVar;
+import com.weiguofu.limq.ResponseUtil;
+import com.weiguofu.limq.ResultEnum;
+import com.weiguofu.limq.TaskQueue;
 import com.weiguofu.limq.exception.CustomException;
+import com.weiguofu.limq.messageDto.MessageWrapper;
 import com.weiguofu.limq.messageDto.RequestMessage;
 import com.weiguofu.limq.messageDto.requestParamDto.ProduceParam;
 import lombok.extern.slf4j.Slf4j;
@@ -67,15 +71,15 @@ public class LimqRequestReceive {
         return MessageWrapper.wrapperMessage(ResponseUtil.success());
     }
 
-    public Object consume(String requestMessage) throws Exception {
+    public Object consume(String requestMessage, String uuid) throws Exception {
         log.info("consume:{}", requestMessage);
         RequestMessage rm = gson.fromJson(requestMessage, RequestMessage.class);
         String qName = (String) rm.getParam();
         if (!GlobalInitVar.allQueue.keySet().contains(qName)) {
-            return MessageWrapper.wrapperMessage(ResponseUtil.fail(ResultEnum.NULL_QUEUE));
+            return MessageWrapper.wrapperMessage(ResponseUtil.fail(ResultEnum.NULL_QUEUE), uuid);
         }
         Object obj = GlobalInitVar.allQueue.get(qName).getQueue().take();
-        return MessageWrapper.wrapperMessage(ResponseUtil.success(obj));
+        return MessageWrapper.wrapperMessage(ResponseUtil.success(obj), uuid);
     }
 
 }

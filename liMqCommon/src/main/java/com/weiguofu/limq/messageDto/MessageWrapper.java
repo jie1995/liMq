@@ -1,6 +1,7 @@
-package com.weiguofu.limq;
+package com.weiguofu.limq.messageDto;
 
 import com.google.gson.Gson;
+import com.weiguofu.limq.UuidUtil;
 import lombok.Data;
 
 /**
@@ -27,11 +28,27 @@ public class MessageWrapper<T> {
      */
     private Long timestamp;
 
-    public static <T> MessageWrapper wrapperMessage(T responseMessage) {
+    public static <T> MessageWrapper wrapperMessage(T mes) {
         Gson g = new Gson();
         MessageWrapper mw = new MessageWrapper();
         mw.setMessageId(UuidUtil.generateUuid());
-        mw.setMessage(g.toJson(responseMessage));
+        mw.setMessage(g.toJson(mes));
+        mw.setTimestamp(System.currentTimeMillis());
+        return mw;
+    }
+
+    /**
+     * 传入mesId,是为了客户端处理响应时和请求对应
+     * @param mes
+     * @param mesId
+     * @param <T>
+     * @return
+     */
+    public static <T> MessageWrapper wrapperMessage(T mes,String mesId) {
+        Gson g = new Gson();
+        MessageWrapper mw = new MessageWrapper();
+        mw.setMessageId(mesId);
+        mw.setMessage(g.toJson(mes));
         mw.setTimestamp(System.currentTimeMillis());
         return mw;
     }

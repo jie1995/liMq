@@ -1,8 +1,8 @@
 package com.weiguofu.limq.service;
 
 import com.google.gson.Gson;
-import com.weiguofu.limq.MessageWrapper;
 import com.weiguofu.limq.ResponseUtil;
+import com.weiguofu.limq.messageDto.MessageWrapper;
 import com.weiguofu.limq.messageDto.RequestMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -32,8 +32,8 @@ public class RequestDispatcher {
             log.info("current method name:{},receive method name:{}", m.getName(), rm.getMethodName());
             if (m.getName().equalsIgnoreCase(rm.getMethodName())) {
                 log.info("reflect invoke");
-                Object res = m.invoke(obj, message);
-                return MessageWrapper.wrapperMessage(res);
+                Object res = m.invoke(obj, new Object[]{message, mw.getMessageId()});
+                return (MessageWrapper) res;
             }
         }
         return MessageWrapper.wrapperMessage(ResponseUtil.fail());

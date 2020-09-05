@@ -19,6 +19,6 @@ public class MyConsumer implements LiMqConsumer {
     @LimqListener(listenQueue = "testQueue")
     @Override
     public void consume(String val) {
-        log.info("val", val);
+        log.info("val:{}", val);
     }
 }

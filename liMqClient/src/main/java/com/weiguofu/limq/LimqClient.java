@@ -3,6 +3,7 @@ package com.weiguofu.limq;
 import com.google.gson.Gson;
 import com.weiguofu.limq.codeh.MessageDecoder;
 import com.weiguofu.limq.codeh.MessageEncoder;
+import com.weiguofu.limq.messageDto.MessageWrapper;
 import com.weiguofu.limq.messageDto.RequestMessage;
 import com.weiguofu.limq.messageDto.requestParamDto.ProduceParam;
 import io.netty.bootstrap.Bootstrap;

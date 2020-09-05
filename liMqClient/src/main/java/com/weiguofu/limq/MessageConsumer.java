@@ -3,19 +3,19 @@ package com.weiguofu.limq;
 import com.google.gson.Gson;
 import com.weiguofu.limq.annotations.LiMqConsumer;
 import com.weiguofu.limq.annotations.LimqListener;
+import com.weiguofu.limq.messageDto.MessageWrapper;
 import com.weiguofu.limq.messageDto.RequestMessage;
-import io.netty.channel.ChannelFuture;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+
+import static com.weiguofu.limq.NettyHolder.excutor;
+import static com.weiguofu.limq.NettyHolder.waitMap;
 
 /**
  * @Description: TODO
@@ -26,17 +26,6 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class MessageConsumer implements ApplicationContextAware {
 
-
-    /**
-     * 线程池
-     */
-    ThreadPoolExecutor excutor = new ThreadPoolExecutor(
-            5,
-            5,
-            0,
-            TimeUnit.SECONDS,
-            new ArrayBlockingQueue<>(5),
-            new ThreadPoolExecutor.AbortPolicy());
 
 
     @Override
@@ -53,7 +42,7 @@ public class MessageConsumer implements ApplicationContextAware {
                 LimqListener annotation = method.getDeclaredAnnotation(LimqListener.class);
                 if (annotation != null) {
                     String qName = annotation.listenQueue();
-                    excutor.execute(() -> pullConsume(qName));
+                    excutor.execute(() -> pullConsume(qName, method, clazz));
                 }
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
@@ -63,7 +52,7 @@ public class MessageConsumer implements ApplicationContextAware {
     }
 
 
-    private void pullConsume(String qName) {
+    private void pullConsume(String qName, Method method, Class<? extends LiMqConsumer> clazz) {
         log.info("拉取消息:{}", qName);
         RequestMessage<String> rm = new RequestMessage<>();
         rm.setMethodName(InterfaceDefines.M_CONSUME);
@@ -72,18 +61,43 @@ public class MessageConsumer implements ApplicationContextAware {
         log.info("pullConsume:{}", gson.toJson(rm));
         while (true) {
             if (NettyHolder.channel != null) {
-                ChannelFuture cf = NettyHolder.channel.writeAndFlush(MessageWrapper.wrapperMessage(rm));
-                try {
-                    Object o = cf.get();
-                    log.info("拉取请求:{}", (MessageWrapper) o);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
+                //这里请求后，不能阻塞获取等待结果，所以得想个办法
+                String uuId = UuidUtil.generateUuid();
+                ReflectDto rt = new ReflectDto();
+                rt.setClazz(clazz);
+                rt.setMethod(method);
+                waitMap.put(uuId, rt);
+                NettyHolder.channel.writeAndFlush(MessageWrapper.wrapperMessage(rm, uuId));
             }
             try {
                 Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void consumeProcess() {
+        while (true) {
+            //刚进入的时候 waitMap肯定不为空
+            waitMap.forEach((k, v) -> {
+                try {
+                    v.getMethod().invoke(v.getClazz().getConstructor().newInstance(), v.getResultValue());
+                    //waitMap.remove()
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                } catch (InstantiationException | NoSuchMethodException e) {
+                    e.printStackTrace();
+                }
+            });
+            try {
+                if (waitMap.keySet().size() == 0) {
+                    Thread.sleep(4000);
+                } else {
+                    Thread.sleep(1000);
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

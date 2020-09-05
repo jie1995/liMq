@@ -1,11 +1,14 @@
 package com.weiguofu.limq;
 
 
-import com.google.gson.Gson;
+import com.weiguofu.limq.messageDto.MessageWrapper;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import static com.weiguofu.limq.NettyHolder.excutor;
+import static com.weiguofu.limq.NettyHolder.waitMap;
 
 
 /**
@@ -21,9 +24,18 @@ public class LiMqClientHandler extends SimpleChannelInboundHandler<MessageWrappe
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, MessageWrapper mw) throws Exception {
-        Gson gson = new Gson();
-        //MessageWrapper responseMessage = gson.fromJson(s, MessageWrapper.class);
-        log.info("响应消息:{}",mw.toString());
+        if (mw != null) {
+            if (waitMap.keySet().contains(mw.getMessageId())) {
+                //设置返回值
+                waitMap.get(mw.getMessageId()).setResultValue(mw.getMessage());
+                //开始处理
+                excutor.execute(() ->
+                        MessageConsumer.consumeProcess());
+            } else {
+                //说明该条消息不需要响应，直接打印
+                log.info("响应消息:{}", mw.toString());
+            }
+        }
     }
 
 
