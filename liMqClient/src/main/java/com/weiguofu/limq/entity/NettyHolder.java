@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class NettyHolder {
 
+    public static volatile boolean scanWaitMapRunning = false;
 
     public static volatile Channel channel;
 

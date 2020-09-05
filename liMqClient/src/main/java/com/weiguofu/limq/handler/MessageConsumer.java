@@ -17,6 +17,7 @@ import org.springframework.context.ApplicationContextAware;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Iterator;
 import java.util.Map;
 
 import static com.weiguofu.limq.entity.NettyHolder.excutor;
@@ -83,23 +84,28 @@ public class MessageConsumer implements ApplicationContextAware {
     public static void consumeProcess() {
         while (true) {
             //刚进入的时候 waitMap肯定不为空
-            waitMap.forEach((k, v) -> {
+            Iterator<Map.Entry<String, ReflectDto>> iterator = waitMap.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry<String, ReflectDto> entry = iterator.next();
+                ReflectDto v = entry.getValue();
                 try {
                     v.getMethod().invoke(v.getClazz().getConstructor().newInstance(), v.getResultValue());
-                    //waitMap.remove()
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 } catch (InvocationTargetException e) {
                     e.printStackTrace();
-                } catch (InstantiationException | NoSuchMethodException e) {
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (NoSuchMethodException e) {
                     e.printStackTrace();
                 }
-            });
+                iterator.remove();
+            }
             try {
                 if (waitMap.keySet().size() == 0) {
                     Thread.sleep(3000);
                 } else {
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
