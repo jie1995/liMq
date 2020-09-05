@@ -5,6 +5,7 @@ import com.weiguofu.limq.codeh.RequestMessageEncoder;
 import com.weiguofu.limq.codeh.ResponseMessageDecoder;
 import com.weiguofu.limqcommon.InterfaceDefines;
 import com.weiguofu.limqcommon.MessageWrapper;
+import com.weiguofu.limqcommon.Spliter;
 import com.weiguofu.limqcommon.UuidUtil;
 import com.weiguofu.limqcommon.messageDto.RequestMessage;
 import com.weiguofu.limqcommon.messageDto.requestParamDto.ProduceParam;
@@ -34,7 +35,7 @@ public class LimqClient {
                     @Override
                     protected void initChannel(Channel ch) {
                         ch.pipeline()
-                                //.addLast(new Spliter())
+                                .addLast(new Spliter())
                                 //.addLast(new StringDecoder(CharsetUtil.UTF_8))
                                 //.addLast(new StringEncoder(CharsetUtil.UTF_8))
                                 .addLast(new RequestMessageEncoder())

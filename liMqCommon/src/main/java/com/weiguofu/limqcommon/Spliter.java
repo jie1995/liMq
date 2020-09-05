@@ -11,7 +11,7 @@ import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
  */
 public class Spliter extends LengthFieldBasedFrameDecoder {
 
-    private static final int MAX_LENGTH = 1024 * 1024;
+    private static final int MAX_LENGTH = Integer.MAX_VALUE;
 
     private static final int LENGTH_FIELD_OFFSET = 0;
 

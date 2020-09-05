@@ -7,8 +7,8 @@ package com.weiguofu.limq;
 
 public enum ResultEnum {
 
-    SUCCESS("201", "消息处理成功"),
-    FAIL("501", "消息处理失败"),
+    SUCCESS("201", "success"),
+    FAIL("501", "fail"),
 
     NULL_QUEUE("502", "队列不存在"),
     REPEAT_QUEUE("504", "队列名已经存在"),

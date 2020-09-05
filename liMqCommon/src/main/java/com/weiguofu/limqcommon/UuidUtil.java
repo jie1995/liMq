@@ -11,7 +11,9 @@ import java.util.UUID;
 public class UuidUtil {
 
     public static String generateUuid() {
-        return UUID.randomUUID().toString().replaceAll("-", "");
+        // 注意: 这里如果使用了replacAll,消息头长度变了，粘包处理会有问题
+        return UUID.randomUUID().toString();
+        //.replaceAll("-", "");
     }
 
 }
