@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ControllerAdvice
 public class CustomExceptionResolver {
 
+	/**
+	 * 还没和spring整合，暂时没用
+	 */
 	@ResponseBody
 	@ExceptionHandler(value = CustomException.class)
 	public Object exceptionResolver(CustomException e) {

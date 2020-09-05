@@ -38,7 +38,7 @@ public class LimqClient {
         rm.setMethodName(InterfaceDefines.M_PRODUCE);
         Gson gson = new Gson();
         log.info("投递消息:{}", gson.toJson(rm));
-        NettyConfig.channel.writeAndFlush(MessageWrapper.wrapperMessage(rm));
+        NettyHolder.channel.writeAndFlush(MessageWrapper.wrapperMessage(rm));
     }
 
     public void declareQueue(String qName) {
@@ -47,7 +47,7 @@ public class LimqClient {
         rm.setParam(qName);
         Gson gson = new Gson();
         log.info("declareQueue:{}", gson.toJson(rm));
-        NettyConfig.channel.writeAndFlush(MessageWrapper.wrapperMessage(rm));
+        NettyHolder.channel.writeAndFlush(MessageWrapper.wrapperMessage(rm));
     }
 
     public void start() {
@@ -70,6 +70,6 @@ public class LimqClient {
                 });
 
         Channel channel = bootstrap.connect(host, port).channel();
-        NettyConfig.channel = channel;
+        NettyHolder.channel = channel;
     }
 }

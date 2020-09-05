@@ -1,8 +1,8 @@
 package com.weiguofu.limq.service;
 
 import com.google.gson.Gson;
-import com.weiguofu.limq.ResponseUtil;
 import com.weiguofu.limq.MessageWrapper;
+import com.weiguofu.limq.ResponseUtil;
 import com.weiguofu.limq.messageDto.RequestMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -33,7 +33,7 @@ public class RequestDispatcher {
             if (m.getName().equalsIgnoreCase(rm.getMethodName())) {
                 log.info("reflect invoke");
                 Object res = m.invoke(obj, message);
-                return res;
+                return MessageWrapper.wrapperMessage(res);
             }
         }
         return MessageWrapper.wrapperMessage(ResponseUtil.fail());

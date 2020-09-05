@@ -24,5 +24,9 @@ public interface InterfaceDefines {
      */
     String M_DECLAREQUEUE = "declareQueue";
 
+    /**
+     * 消费消息
+     */
+    String M_CONSUME = "consume";
 
 }

@@ -2,8 +2,8 @@ package com.weiguofu.limq.server;
 
 
 import com.google.gson.Gson;
-import com.weiguofu.limq.service.RequestDispatcher;
 import com.weiguofu.limq.MessageWrapper;
+import com.weiguofu.limq.service.RequestDispatcher;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.AllArgsConstructor;
@@ -67,12 +67,9 @@ public class LiMqServerHandler extends SimpleChannelInboundHandler<MessageWrappe
      */
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        // Close the connection when an exception is raised.
+        log.info("exceptionCaught捕获到异常");
         cause.printStackTrace();
-        Gson gson = new Gson();
-        //CustomException customException = (CustomException) cause;
-        //ctx.channel().writeAndFlush(gson.toJson(ResponseUtil.fail(customException.getAnEnum())));
-        ctx.channel().writeAndFlush(cause.getCause().toString());
-        //ctx.close();
+        //TODO 记录到日志
+        //ctx.channel().writeAndFlush(MessageWrapper.wrapperMessage(ResponseUtil.fail(customException.getAnEnum())));
     }
 }

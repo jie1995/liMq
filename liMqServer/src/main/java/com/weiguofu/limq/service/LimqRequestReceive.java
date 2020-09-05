@@ -1,12 +1,8 @@
 package com.weiguofu.limq.service;
 
 import com.google.gson.Gson;
-import com.weiguofu.limq.GlobalInitVar;
-import com.weiguofu.limq.ResponseUtil;
-import com.weiguofu.limq.ResultEnum;
-import com.weiguofu.limq.TaskQueue;
+import com.weiguofu.limq.*;
 import com.weiguofu.limq.exception.CustomException;
-import com.weiguofu.limq.MessageWrapper;
 import com.weiguofu.limq.messageDto.RequestMessage;
 import com.weiguofu.limq.messageDto.requestParamDto.ProduceParam;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +22,8 @@ public class LimqRequestReceive {
 
     private OneQueueService service = new OneQueueService();
 
+    private static final Gson gson = new Gson();
+
 
     /**
      * 点对点
@@ -35,7 +33,6 @@ public class LimqRequestReceive {
      */
     public Object produce(String requestMessage) throws Exception {
         log.info("消息投递:{}", requestMessage);
-        Gson gson = new Gson();
         RequestMessage rm = gson.fromJson(requestMessage, RequestMessage.class);
         //先把里面的参数转成json,再转成ProduceParam
         ProduceParam pp = gson.fromJson(gson.toJson(rm.getParam()), ProduceParam.class);
@@ -61,7 +58,6 @@ public class LimqRequestReceive {
      */
     public Object declareQueue(String requestMessage) throws Exception {
         log.info("declareQueue:{}", requestMessage);
-        Gson gson = new Gson();
         RequestMessage rm = gson.fromJson(requestMessage, RequestMessage.class);
         String qName = (String) rm.getParam();
         if (GlobalInitVar.allQueue.keySet().contains(qName)) {
@@ -70,4 +66,16 @@ public class LimqRequestReceive {
         GlobalInitVar.allQueue.put(qName, new TaskQueue());
         return MessageWrapper.wrapperMessage(ResponseUtil.success());
     }
+
+    public Object consume(String requestMessage) throws Exception {
+        log.info("consume:{}", requestMessage);
+        RequestMessage rm = gson.fromJson(requestMessage, RequestMessage.class);
+        String qName = (String) rm.getParam();
+        if (!GlobalInitVar.allQueue.keySet().contains(qName)) {
+            return MessageWrapper.wrapperMessage(ResponseUtil.fail(ResultEnum.NULL_QUEUE));
+        }
+        Object obj = GlobalInitVar.allQueue.get(qName).getQueue().take();
+        return MessageWrapper.wrapperMessage(ResponseUtil.success(obj));
+    }
+
 }

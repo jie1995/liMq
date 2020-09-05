@@ -8,7 +8,7 @@ import io.netty.channel.Channel;
  * @Date: 2020/9/4 16:47
  * @Version 1.0
  */
-public class NettyConfig {
+public class NettyHolder {
 
 
     public static Channel channel;

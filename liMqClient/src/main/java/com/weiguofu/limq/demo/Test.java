@@ -1,4 +1,6 @@
-package com.weiguofu.limq;
+package com.weiguofu.limq.demo;
+
+import com.weiguofu.limq.LimqClient;
 
 /**
  * @Description: TODO

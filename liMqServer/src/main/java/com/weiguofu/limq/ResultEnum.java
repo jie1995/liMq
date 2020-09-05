@@ -10,8 +10,8 @@ public enum ResultEnum {
     SUCCESS("201", "success"),
     FAIL("501", "fail"),
 
-    NULL_QUEUE("502", "队列不存在"),
-    REPEAT_QUEUE("504", "队列名已经存在"),
+    NULL_QUEUE("502", "queue not exist"),
+    REPEAT_QUEUE("504", "queue already exist"),
 
     NULL_TOPIC("503", "TOPIC不存在");
 
