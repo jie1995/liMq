@@ -46,7 +46,7 @@ public class LimqClientHandler extends SimpleChannelInboundHandler<MessageWrappe
                     }
                 } else {
                     //说明该条消息不需要响应，直接打印
-                    log.info("响应消息:{}", mw.toString());
+                    log.info("响应消息:{}", responseMessage.getMessage());
                 }
             }
         }

@@ -50,8 +50,7 @@ public class LimqClient {
         RequestMessage<ProduceParam> rm = new RequestMessage<>();
         rm.setParam(produceParam);
         rm.setMethodName(InterfaceDefines.M_PRODUCE);
-        Gson gson = new Gson();
-        log.info("投递消息:{}", gson.toJson(rm));
+        log.info("produce:{}", MessageWrapper.wrapperMessage(rm));
         NettyHolder.channel.writeAndFlush(MessageWrapper.wrapperMessage(rm));
     }
 
@@ -59,8 +58,7 @@ public class LimqClient {
         RequestMessage<String> rm = new RequestMessage<>();
         rm.setMethodName(InterfaceDefines.M_DECLAREQUEUE);
         rm.setParam(qName);
-        Gson gson = new Gson();
-        log.info("declareQueue:{}", gson.toJson(rm));
+        log.info("declareQueue:{}", MessageWrapper.wrapperMessage(rm));
         NettyHolder.channel.writeAndFlush(MessageWrapper.wrapperMessage(rm));
     }
 

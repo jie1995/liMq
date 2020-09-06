@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.weiguofu.limq.GlobalInitVar;
 import com.weiguofu.limq.ResponseUtil;
 import com.weiguofu.limq.ResultEnum;
-import com.weiguofu.limq.exception.CustomException;
 import com.weiguofu.limq.messageDto.MessageWrapper;
 import com.weiguofu.limq.messageDto.RequestMessage;
 import com.weiguofu.limq.messageDto.requestParamDto.ProduceParam;
@@ -36,7 +35,7 @@ public class LimqRequestReceive {
      * @return
      */
     public Object produce(String requestMessage, String uuid) throws Exception {
-        log.info("消息投递:{}", requestMessage);
+        log.info("produce:{}", requestMessage);
         RequestMessage rm = gson.fromJson(requestMessage, RequestMessage.class);
         //先把里面的参数转成json,再转成ProduceParam
         ProduceParam pp = gson.fromJson(gson.toJson(rm.getParam()), ProduceParam.class);
@@ -67,7 +66,7 @@ public class LimqRequestReceive {
         RequestMessage rm = gson.fromJson(requestMessage, RequestMessage.class);
         String qName = (String) rm.getParam();
         if (GlobalInitVar.allQueue.keySet().contains(qName)) {
-            throw new CustomException(ResultEnum.REPEAT_QUEUE);
+            return MessageWrapper.wrapperMessage(ResponseUtil.fail(ResultEnum.REPEAT_QUEUE), uuid);
         }
         GlobalInitVar.allQueue.put(qName, new TaskQueue());
         return MessageWrapper.wrapperMessage(ResponseUtil.success(), uuid);

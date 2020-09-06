@@ -31,7 +31,6 @@ public class LimqServerHandler extends SimpleChannelInboundHandler<MessageWrappe
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, MessageWrapper mw) throws Exception {
-        log.info("MessageWrapper:{}", mw);
         Object res = requestDispatcher.requestHandle(mw);
         ctx.channel().writeAndFlush((MessageWrapper)res);
     }
@@ -40,7 +39,7 @@ public class LimqServerHandler extends SimpleChannelInboundHandler<MessageWrappe
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         ctx.flush();
-        log.info("消息接收完毕");
+        //log.info("消息接收完毕");
         //ctx.flush().close().sync();
     }
 
