@@ -35,21 +35,23 @@ public class LimqRequestReceive {
      * @param requestMessage
      * @return
      */
-    public Object produce(String requestMessage) throws Exception {
+    public Object produce(String requestMessage, String uuid) throws Exception {
         log.info("消息投递:{}", requestMessage);
         RequestMessage rm = gson.fromJson(requestMessage, RequestMessage.class);
         //先把里面的参数转成json,再转成ProduceParam
         ProduceParam pp = gson.fromJson(gson.toJson(rm.getParam()), ProduceParam.class);
         TaskQueue deque;
-        Optional.ofNullable(deque = GlobalInitVar
-                .allQueue.get(pp.getQName()))
-                .orElseThrow(() -> new CustomException(ResultEnum.NULL_QUEUE));
+        Optional<TaskQueue> queue = Optional.ofNullable(deque = GlobalInitVar
+                .allQueue.get(pp.getQName()));
+        if (!queue.isPresent()) {
+            return MessageWrapper.wrapperMessage(ResponseUtil.nullQueue(pp.getQName()), uuid);
+        }
         if (pp.getReliable()) {
             service.save(deque, pp.getValue());
         } else {
             service.quickSave(deque, pp.getValue());
         }
-        return MessageWrapper.wrapperMessage(ResponseUtil.success());
+        return MessageWrapper.wrapperMessage(ResponseUtil.success(), uuid);
     }
 
 
@@ -60,7 +62,7 @@ public class LimqRequestReceive {
      * @return
      * @throws Exception
      */
-    public Object declareQueue(String requestMessage) throws Exception {
+    public Object declareQueue(String requestMessage, String uuid) throws Exception {
         log.info("declareQueue:{}", requestMessage);
         RequestMessage rm = gson.fromJson(requestMessage, RequestMessage.class);
         String qName = (String) rm.getParam();
@@ -68,7 +70,7 @@ public class LimqRequestReceive {
             throw new CustomException(ResultEnum.REPEAT_QUEUE);
         }
         GlobalInitVar.allQueue.put(qName, new TaskQueue());
-        return MessageWrapper.wrapperMessage(ResponseUtil.success());
+        return MessageWrapper.wrapperMessage(ResponseUtil.success(), uuid);
     }
 
     public Object consume(String requestMessage, String uuid) throws Exception {
