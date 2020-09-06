@@ -4,11 +4,11 @@ import com.google.gson.Gson;
 import com.weiguofu.limq.InterfaceDefines;
 import com.weiguofu.limq.LimqClient;
 import com.weiguofu.limq.UuidUtil;
-import com.weiguofu.limq.demo.MyConsumer;
 import com.weiguofu.limq.entity.NettyHolder;
 import com.weiguofu.limq.entity.ReflectDto;
 import com.weiguofu.limq.facade.LimqConsumer;
 import com.weiguofu.limq.facade.LimqListener;
+import com.weiguofu.limq.facade.Queue;
 import com.weiguofu.limq.messageDto.MessageWrapper;
 import com.weiguofu.limq.messageDto.RequestMessage;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +38,7 @@ public class MessageConsumer implements ApplicationContextAware {
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         excutor.execute(() -> LimqClient.Instance());
+        excutor.execute(() -> QueueDeclare.queueDeclareScan(applicationContext));
         //收集所有的listener
         Map<String, LimqConsumer> map = applicationContext.getBeansOfType(LimqConsumer.class);
 
@@ -73,7 +74,7 @@ public class MessageConsumer implements ApplicationContextAware {
                 rt.setClazz(clazz);
                 rt.setMethod(method);
                 waitMap.put(uuId, rt);
-                 MyConsumer.p();
+                //MyConsumer.p();
                 NettyHolder.channel.writeAndFlush(MessageWrapper.wrapperMessage(rm, uuId));
             }
             try {

@@ -3,7 +3,9 @@ package com.weiguofu.limq.demo;
 import com.weiguofu.limq.LimqClient;
 import com.weiguofu.limq.facade.LimqConsumer;
 import com.weiguofu.limq.facade.LimqListener;
+import com.weiguofu.limq.facade.Queue;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,11 +19,22 @@ import org.springframework.stereotype.Component;
 @Component
 public class MyConsumer implements LimqConsumer {
 
+
+    @Bean
+    public Queue queue1() {
+        return new Queue("testQueue1");
+    }
+
+
+    @Bean
+    public Queue queue2() {
+        return new Queue("testQueue2");
+    }
+
+
     public static void p() {
         LimqClient limqClient = LimqClient.Instance();
-        limqClient.declareQueue("testQueue");
         limqClient.produce("testQueue", false, "hello,world");
-
     }
 
     @LimqListener(listenQueue = "testQueue")
