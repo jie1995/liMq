@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * @Description: 请求具体处理中心
@@ -68,7 +69,7 @@ public class LimqRequestReceive {
         if (GlobalInitVar.allQueue.keySet().contains(qName)) {
             return MessageWrapper.wrapperMessage(ResponseUtil.fail(ResultEnum.REPEAT_QUEUE), uuid);
         }
-        GlobalInitVar.allQueue.put(qName, new TaskQueue());
+        GlobalInitVar.allQueue.put(qName, new TaskQueue(null, new ArrayBlockingQueue<String>(5)));
         return MessageWrapper.wrapperMessage(ResponseUtil.success(), uuid);
     }
 
