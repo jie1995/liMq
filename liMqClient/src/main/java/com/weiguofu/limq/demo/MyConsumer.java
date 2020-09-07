@@ -22,7 +22,7 @@ public class MyConsumer implements LimqConsumer {
 
     @Bean
     public Queue queue1() {
-        return new Queue("testQueue1");
+        return new Queue("testQueue");
     }
 
 

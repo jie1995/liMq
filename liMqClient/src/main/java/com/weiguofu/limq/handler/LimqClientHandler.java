@@ -46,7 +46,7 @@ public class LimqClientHandler extends SimpleChannelInboundHandler<MessageWrappe
                     }
                 } else {
                     //说明该条消息不需要响应，直接打印
-                    log.info("响应消息:{}", responseMessage.getMessage());
+                    log.info("response message:{}", responseMessage.getMessage());
                 }
             }
         }
@@ -57,5 +57,14 @@ public class LimqClientHandler extends SimpleChannelInboundHandler<MessageWrappe
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         //log.info("消息接收完毕");
         //ctx.flush().close().sync();
+    }
+
+    /**
+     * 异常捕获处理方法
+     */
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        log.info("exceptionCaught捕获到异常");
+        cause.printStackTrace();
     }
 }
