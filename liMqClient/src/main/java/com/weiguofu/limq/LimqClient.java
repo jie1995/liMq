@@ -1,10 +1,9 @@
 package com.weiguofu.limq;
 
-import com.google.gson.Gson;
 import com.weiguofu.limq.codeh.MessageDecoder;
 import com.weiguofu.limq.codeh.MessageEncoder;
 import com.weiguofu.limq.entity.NettyHolder;
-import com.weiguofu.limq.entity.NettyProperties;
+import com.weiguofu.limq.config.NettyProperties;
 import com.weiguofu.limq.handler.LimqClientHandler;
 import com.weiguofu.limq.messageDto.MessageWrapper;
 import com.weiguofu.limq.messageDto.RequestMessage;
