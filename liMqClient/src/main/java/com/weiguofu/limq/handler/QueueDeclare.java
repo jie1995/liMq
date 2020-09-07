@@ -19,13 +19,13 @@ public class QueueDeclare {
 
     public static void queueDeclareScan(ApplicationContext applicationContext) {
         Map<String, Queue> mq = applicationContext.getBeansOfType(Queue.class);
-        log.info("beans个数:{}", mq.keySet().size());
+        log.info("待创建的队列个数:{}", mq.keySet().size());
         LimqClient limqClient;
         while (NettyHolder.channel == null) {
             if (NettyHolder.channel != null) {
                 break;
             }
-            log.info("等待建立连接");
+            log.info("declare等待建立连接");
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -34,7 +34,6 @@ public class QueueDeclare {
         }
         if (mq.keySet().size() > 0 && (limqClient = LimqClient.Instance()) != null) {
             mq.forEach((k, v) -> {
-                        log.info("获取的bean属性:{}", v.qName);
                         limqClient.declareQueue(v.qName);
                     }
             );
