@@ -5,6 +5,7 @@ import com.weiguofu.limq.facade.LimqConsumer;
 import com.weiguofu.limq.facade.LimqListener;
 import com.weiguofu.limq.facade.Queue;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
@@ -19,17 +20,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class MyConsumer implements LimqConsumer {
 
-    /**
-     * 注入limqClient
-     * @return
-     */
-    @Bean
-    public LimqClient limqClient() {
-        return LimqClient.Instance();
-    }
+    @Autowired
+    LimqClient limqClient;
 
     /**
      * 声明队列
+     *
      * @return
      */
     @Bean

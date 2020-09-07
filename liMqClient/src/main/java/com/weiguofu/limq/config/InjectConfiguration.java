@@ -1,7 +1,8 @@
 package com.weiguofu.limq.config;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import com.weiguofu.limq.LimqClient;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,4 +14,9 @@ import org.springframework.stereotype.Component;
 @Component
 @EnableConfigurationProperties({NettyProperties.class})
 public class InjectConfiguration {
+
+    @Bean
+    public LimqClient limqClient() {
+        return LimqClient.Instance();
+    }
 }

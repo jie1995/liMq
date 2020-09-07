@@ -14,6 +14,7 @@ Netty+BlockingQueue实现的简单mq
      * 响应含有中文会超过处理长度
   * 拉取消费信息后，如何和请求对应起来？
      * LinkedHashMap维护统一的messageId;
+  * springboot自动装配
    
 ### 待解决：
    1. 服务端整合spring？
@@ -40,10 +41,9 @@ Netty+BlockingQueue实现的简单mq
         * 注入limqClient
         * @return
         */
-       @Bean
-       public LimqClient limqClient() {
-           return LimqClient.Instance();
-       }
+       @Autowired
+       LimqClient limqClient;
+
    
        /**
         * 声明队列
