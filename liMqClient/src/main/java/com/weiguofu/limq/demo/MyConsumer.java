@@ -19,27 +19,40 @@ import org.springframework.stereotype.Component;
 @Component
 public class MyConsumer implements LimqConsumer {
 
+    /**
+     * 注入limqClient
+     * @return
+     */
+    @Bean
+    public LimqClient limqClient() {
+        return LimqClient.Instance();
+    }
 
+    /**
+     * 声明队列
+     * @return
+     */
     @Bean
     public Queue queue1() {
         return new Queue("testQueue");
     }
 
-
-    @Bean
-    public Queue queue2() {
-        return new Queue("testQueue2");
-    }
-
-
-    public static void p() {
-        LimqClient limqClient = LimqClient.Instance();
-        limqClient.produce("testQueue", false, "hello,world");
-    }
-
+    /**
+     * 监听队列处理业务逻辑
+     * @param val
+     */
     @LimqListener(listenQueue = "testQueue")
     @Override
     public void consume(String val) {
         log.info("val:{}", val);
     }
+
+    /**
+     * 消息投递
+     * @param limqClient
+     */
+    public  void produce(LimqClient limqClient) {
+        limqClient.produce("testQueue", false, "hello,world");
+    }
+
 }

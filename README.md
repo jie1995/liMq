@@ -21,6 +21,45 @@ Netty+BlockingQueue实现的简单mq
 ###其他：
     * 消息的投递的可靠不可靠模式
     * 测试高效和非高效模式的性能差异
+ (```)   
+   @Component
+   public class MyConsumer implements LimqConsumer {
+       /**
+        * 注入limqClient
+        * @return
+        */
+       @Bean
+       public LimqClient limqClient() {
+           return LimqClient.Instance();
+       }
+   
+       /**
+        * 声明队列
+        * @return
+        */
+       @Bean
+       public Queue queue1() {
+           return new Queue("testQueue");
+       }
+   
+       /**
+        * 监听队列处理业务逻辑
+        * @param val
+        */
+       @LimqListener(listenQueue = "testQueue")
+       @Override
+       public void consume(String val) {
+           log.info("val:{}", val);
+       }
+   
+       /**
+        * 消息投递
+        * @param limqClient
+        */
+       public  void produce(LimqClient limqClient) {
+           limqClient.produce("testQueue", false, "hello,world");
+       }   
+   }
 
 
  
