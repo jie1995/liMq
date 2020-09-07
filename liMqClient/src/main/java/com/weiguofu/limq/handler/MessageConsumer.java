@@ -85,7 +85,6 @@ public class MessageConsumer implements ApplicationContextAware {
                 rt.setClazz(clazz);
                 rt.setMethod(method);
                 waitMap.put(uuId, rt);
-                MyConsumer.p();
                 NettyHolder.channel.writeAndFlush(MessageWrapper.wrapperMessage(rm, uuId));
             }
             try {

@@ -21,7 +21,18 @@ Netty+BlockingQueue实现的简单mq
 ###其他：
     * 消息的投递的可靠不可靠模式
     * 测试高效和非高效模式的性能差异
- (```)   
+    
+###使用方式：
+   #### 1.客户端引用：
+   ```
+      <dependency>
+            <groupId>com.weiguofu</groupId>
+            <artifactId>limqClient</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+   ```
+   #### 2.基本使用 
+```    
    @Component
    public class MyConsumer implements LimqConsumer {
        /**
@@ -60,6 +71,8 @@ Netty+BlockingQueue实现的简单mq
            limqClient.produce("testQueue", false, "hello,world");
        }   
    }
+   
+   ```
 
 
  
