@@ -16,7 +16,7 @@ Netty+BlockingQueue实现的简单mq
      * LinkedHashMap维护统一的messageId;
    
 ### 待解决：
-   1. 如何整合spring？
+   1. 服务端整合spring？
    
 ###其他：
     * 消息的投递的可靠不可靠模式
