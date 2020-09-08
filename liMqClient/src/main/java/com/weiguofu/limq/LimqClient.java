@@ -4,11 +4,11 @@ import com.weiguofu.limq.codeh.MessageDecoder;
 import com.weiguofu.limq.codeh.MessageEncoder;
 import com.weiguofu.limq.config.NettyProperties;
 import com.weiguofu.limq.entity.NettyHolder;
-import com.weiguofu.limq.messageDto.requestParamDto.Queue;
 import com.weiguofu.limq.handler.LimqClientHandler;
 import com.weiguofu.limq.messageDto.MessageWrapper;
 import com.weiguofu.limq.messageDto.RequestMessage;
 import com.weiguofu.limq.messageDto.requestParamDto.ProduceParam;
+import com.weiguofu.limq.messageDto.requestParamDto.Queue;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
@@ -31,36 +31,33 @@ public class LimqClient {
         start(properties.getHost(), properties.getPort());
     }
 
-    /**
-     * 奇怪,居然没有执行初始化？
-     * 静态内部类和静态变量不一样:
-     * 静态内部类在使用的时候才会加载
-     */
-//    public static class SingletonHolder {
-//        private static LimqClient instance = new LimqClient();
-//    }
-//
-//    public static LimqClient Instance() {
-//        return SingletonHolder.instance;
-//    }
-    public void produce(String qName, boolean reliable, String value) {
+    protected void produce(String qName, boolean reliable, String value) {
         ProduceParam produceParam = new ProduceParam(qName, reliable, value);
         RequestMessage<ProduceParam> rm = new RequestMessage<>();
         rm.setParam(produceParam);
-        rm.setMethodName(InterfaceDefines.M_PRODUCE);
+        rm.setMethodName(InvokeMethodDefines.M_PRODUCE);
         log.info("produce:{}", MessageWrapper.wrapperMessage(rm));
         NettyHolder.channel.writeAndFlush(MessageWrapper.wrapperMessage(rm));
     }
 
-    public void declareQueue(Queue queue) {
+    protected void produceWithTopic(String topic, String value) {
+        ProduceParam produceParam = new ProduceParam(topic, false, value);
+        RequestMessage<ProduceParam> rm = new RequestMessage<>();
+        rm.setParam(produceParam);
+        rm.setMethodName(InvokeMethodDefines.M_PRODUCE_TOPIC);
+        log.info("produceWithTopic:{}", MessageWrapper.wrapperMessage(rm));
+        NettyHolder.channel.writeAndFlush(MessageWrapper.wrapperMessage(rm));
+    }
+
+    protected void declareQueue(Queue queue) {
         RequestMessage<Queue> rm = new RequestMessage<>();
-        rm.setMethodName(InterfaceDefines.M_DECLAREQUEUE);
+        rm.setMethodName(InvokeMethodDefines.M_DECLAREQUEUE);
         rm.setParam(queue);
         log.info("declareQueue:{}", MessageWrapper.wrapperMessage(rm));
         NettyHolder.channel.writeAndFlush(MessageWrapper.wrapperMessage(rm));
     }
 
-    public void start(String host, int port) {
+    private void start(String host, int port) {
         Bootstrap bootstrap = new Bootstrap();
         NioEventLoopGroup group = new NioEventLoopGroup();
 

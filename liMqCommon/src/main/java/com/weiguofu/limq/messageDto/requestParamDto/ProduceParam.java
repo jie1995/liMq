@@ -13,16 +13,19 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class ProduceParam implements Serializable {
 
-    public String qName;
+    /**
+     * key即 队列qName或者topic
+     */
+    public String key;
     public Boolean reliable;
     public String value;
 
-    public String getQName() {
-        return qName;
+    public String getKey() {
+        return key;
     }
 
-    public void setQName(String qName) {
-        this.qName = qName;
+    public void setKey(String qName) {
+        this.key = qName;
     }
 
     public Boolean getReliable() {

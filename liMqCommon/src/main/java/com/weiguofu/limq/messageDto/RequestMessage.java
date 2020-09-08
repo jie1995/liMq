@@ -1,6 +1,5 @@
 package com.weiguofu.limq.messageDto;
 
-import com.weiguofu.limq.InterfaceDefines;
 import lombok.Data;
 
 /**

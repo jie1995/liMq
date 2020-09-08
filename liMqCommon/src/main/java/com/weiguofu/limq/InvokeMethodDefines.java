@@ -6,13 +6,20 @@ package com.weiguofu.limq;
  * @Date: 2020/9/3 22:31
  * @Version 1.0
  */
-public interface InterfaceDefines {
+public interface InvokeMethodDefines {
 
 
     /**
      * 生产消息方法名
      */
     String M_PRODUCE = "produce";
+
+    /**
+     * 生产消息（topic方式）方法名
+     */
+    String M_PRODUCE_TOPIC = "produceWithTopic";
+
+
 
     /**
      * 队列声明方法名

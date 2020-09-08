@@ -1,8 +1,7 @@
 package com.weiguofu.limq.handler;
 
 import com.google.gson.Gson;
-import com.weiguofu.limq.InterfaceDefines;
-import com.weiguofu.limq.LimqClient;
+import com.weiguofu.limq.InvokeMethodDefines;
 import com.weiguofu.limq.UuidUtil;
 import com.weiguofu.limq.entity.NettyHolder;
 import com.weiguofu.limq.entity.ReflectDto;
@@ -15,7 +14,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -62,7 +60,7 @@ public class MessageConsumer implements ApplicationContextAware {
 
     private void pullConsume(String qName, Method method, Class<? extends LimqConsumer> clazz) {
         RequestMessage<String> rm = new RequestMessage<>();
-        rm.setMethodName(InterfaceDefines.M_CONSUME);
+        rm.setMethodName(InvokeMethodDefines.M_CONSUME);
         rm.setParam(qName);
         Gson gson = new Gson();
         log.info("pullConsume:{}", gson.toJson(rm));

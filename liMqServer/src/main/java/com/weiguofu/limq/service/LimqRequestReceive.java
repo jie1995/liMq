@@ -43,9 +43,9 @@ public class LimqRequestReceive {
         ProduceParam pp = gson.fromJson(gson.toJson(rm.getParam()), ProduceParam.class);
         TaskQueue deque;
         Optional<TaskQueue> queue = Optional.ofNullable(deque = GlobalInitVar
-                .allQueue.get(pp.getQName()));
+                .allQueue.get(pp.getKey()));
         if (!queue.isPresent()) {
-            return MessageWrapper.wrapperMessage(ResponseUtil.nullQueue(pp.getQName()), uuid);
+            return MessageWrapper.wrapperMessage(ResponseUtil.nullQueue(pp.getKey()), uuid);
         }
         if (pp.getReliable()) {
             service.save(deque, pp.getValue());
