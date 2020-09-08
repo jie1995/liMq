@@ -2,7 +2,7 @@ package com.weiguofu.limq.handler;
 
 import com.weiguofu.limq.LimqClient;
 import com.weiguofu.limq.entity.NettyHolder;
-import com.weiguofu.limq.facade.Queue;
+import com.weiguofu.limq.messageDto.requestParamDto.Queue;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -39,7 +39,7 @@ public class QueueDeclare {
         }
         if (mq.keySet().size() > 0) {
             mq.forEach((k, v) -> {
-                        limqClient.declareQueue(v.qName);
+                        limqClient.declareQueue(v);
                     }
             );
         }

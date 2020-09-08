@@ -3,7 +3,7 @@ package com.weiguofu.limq.demo;
 import com.weiguofu.limq.LimqClient;
 import com.weiguofu.limq.facade.LimqConsumer;
 import com.weiguofu.limq.facade.LimqListener;
-import com.weiguofu.limq.facade.Queue;
+import com.weiguofu.limq.messageDto.requestParamDto.Queue;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -30,7 +30,7 @@ public class MyConsumer implements LimqConsumer {
      */
     @Bean
     public Queue queue1() {
-        return new Queue("testQueue");
+        return new Queue("testQueue").bind("topic1").bind("topic2");
     }
 
     /**

@@ -4,6 +4,7 @@ import com.weiguofu.limq.codeh.MessageDecoder;
 import com.weiguofu.limq.codeh.MessageEncoder;
 import com.weiguofu.limq.config.NettyProperties;
 import com.weiguofu.limq.entity.NettyHolder;
+import com.weiguofu.limq.messageDto.requestParamDto.Queue;
 import com.weiguofu.limq.handler.LimqClientHandler;
 import com.weiguofu.limq.messageDto.MessageWrapper;
 import com.weiguofu.limq.messageDto.RequestMessage;
@@ -51,10 +52,10 @@ public class LimqClient {
         NettyHolder.channel.writeAndFlush(MessageWrapper.wrapperMessage(rm));
     }
 
-    public void declareQueue(String qName) {
-        RequestMessage<String> rm = new RequestMessage<>();
+    public void declareQueue(Queue queue) {
+        RequestMessage<Queue> rm = new RequestMessage<>();
         rm.setMethodName(InterfaceDefines.M_DECLAREQUEUE);
-        rm.setParam(qName);
+        rm.setParam(queue);
         log.info("declareQueue:{}", MessageWrapper.wrapperMessage(rm));
         NettyHolder.channel.writeAndFlush(MessageWrapper.wrapperMessage(rm));
     }

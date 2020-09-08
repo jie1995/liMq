@@ -7,6 +7,7 @@ import com.weiguofu.limq.ResultEnum;
 import com.weiguofu.limq.messageDto.MessageWrapper;
 import com.weiguofu.limq.messageDto.RequestMessage;
 import com.weiguofu.limq.messageDto.requestParamDto.ProduceParam;
+import com.weiguofu.limq.messageDto.requestParamDto.Queue;
 import com.weiguofu.limq.storage.TaskQueue;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -65,11 +66,12 @@ public class LimqRequestReceive {
     public Object declareQueue(String requestMessage, String uuid) throws Exception {
         log.info("declareQueue:{}", requestMessage);
         RequestMessage rm = gson.fromJson(requestMessage, RequestMessage.class);
-        String qName = (String) rm.getParam();
-        if (GlobalInitVar.allQueue.keySet().contains(qName)) {
+        Queue q = gson.fromJson(gson.toJson(rm.getParam()), Queue.class);
+        //Queue q = (Queue) rm.getParam();
+        if (GlobalInitVar.allQueue.keySet().contains(q.getqName())) {
             return MessageWrapper.wrapperMessage(ResponseUtil.fail(ResultEnum.REPEAT_QUEUE), uuid);
         }
-        GlobalInitVar.allQueue.put(qName, new TaskQueue(null, new ArrayBlockingQueue<String>(5)));
+        GlobalInitVar.allQueue.put(q.getqName(), new TaskQueue(q.getTopicList(), new ArrayBlockingQueue<String>(5)));
         return MessageWrapper.wrapperMessage(ResponseUtil.success(), uuid);
     }
 
