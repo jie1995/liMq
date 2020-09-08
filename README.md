@@ -15,10 +15,11 @@ Netty+BlockingQueue实现的简单mq
   * 拉取消费信息后，如何和请求对应起来？
      * LinkedHashMap维护统一的messageId;
   * springboot自动装配
+     * spring.factoies
    
 ### 待解决：
-   1. 服务端整合spring？
-   2. 引入的包要通过spring.factoies自动装配
+   1. 服务端整合spring
+  
    
 ### 其他：
     * 消息的投递的可靠不可靠模式
@@ -56,12 +57,12 @@ Netty+BlockingQueue实现的简单mq
 
    
        /**
-        * 声明队列
+        * 声明队列,绑定topic
         * @return
         */
        @Bean
        public Queue queue1() {
-           return new Queue("testQueue");
+           return new Queue("testQueue").bind("topic");
        }
    
        /**
