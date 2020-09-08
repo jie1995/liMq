@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @Description: 请求具体处理中心
@@ -52,6 +53,40 @@ public class LimqRequestReceive {
         } else {
             service.quickSave(deque, pp.getValue());
         }
+        return MessageWrapper.wrapperMessage(ResponseUtil.success(), uuid);
+    }
+
+
+    /**
+     * 队列方式
+     *
+     * @param requestMessage
+     * @return
+     */
+    public Object produceWithTopic(String requestMessage, String uuid) {
+        log.info("produce:{}", requestMessage);
+        RequestMessage rm = gson.fromJson(requestMessage, RequestMessage.class);
+        //先把里面的参数转成json,再转成ProduceParam
+        ProduceParam pp = gson.fromJson(gson.toJson(rm.getParam()), ProduceParam.class);
+        //投递消息到带有该topic的队列
+        GlobalInitVar.allQueue.entrySet()
+                .stream()
+                .filter(entry ->
+                        entry.getValue().getTopics().contains(pp.getKey()))
+                .forEach(e -> {
+                    if (pp.getReliable()) {
+                        try {
+                            service.save(e.getValue(), pp.getValue());
+                        } catch (ExecutionException executionException) {
+                            executionException.printStackTrace();
+                        } catch (InterruptedException interruptedException) {
+                            interruptedException.printStackTrace();
+                        }
+                    } else {
+                        service.quickSave(e.getValue(), pp.getValue());
+                    }
+                });
+
         return MessageWrapper.wrapperMessage(ResponseUtil.success(), uuid);
     }
 
