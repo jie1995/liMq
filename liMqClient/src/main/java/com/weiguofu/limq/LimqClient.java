@@ -2,8 +2,8 @@ package com.weiguofu.limq;
 
 import com.weiguofu.limq.codeh.MessageDecoder;
 import com.weiguofu.limq.codeh.MessageEncoder;
-import com.weiguofu.limq.entity.NettyHolder;
 import com.weiguofu.limq.config.NettyProperties;
+import com.weiguofu.limq.entity.NettyHolder;
 import com.weiguofu.limq.handler.LimqClientHandler;
 import com.weiguofu.limq.messageDto.MessageWrapper;
 import com.weiguofu.limq.messageDto.RequestMessage;
@@ -14,6 +14,7 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 /**
@@ -25,25 +26,23 @@ import lombok.extern.slf4j.Slf4j;
 public class LimqClient {
 
 
-    private LimqClient(String host, int port) {
-        log.info("开始建立连接,服务端地址:{},端口号:{}", host, port);
-        start(host, port);
+    public LimqClient(NettyProperties properties) {
+        log.info("开始建立连接,服务端地址:{},端口号:{}", properties.getHost(), properties.getPort());
+        start(properties.getHost(), properties.getPort());
     }
 
     /**
      * 奇怪,居然没有执行初始化？
      * 静态内部类和静态变量不一样:
-     *      静态内部类在使用的时候才会加载
+     * 静态内部类在使用的时候才会加载
      */
-    public static class SingletonHolder {
-        private static LimqClient instance = new LimqClient(NettyProperties.host, NettyProperties.port);
-    }
-
-    public static LimqClient Instance() {
-        return SingletonHolder.instance;
-    }
-
-
+//    public static class SingletonHolder {
+//        private static LimqClient instance = new LimqClient();
+//    }
+//
+//    public static LimqClient Instance() {
+//        return SingletonHolder.instance;
+//    }
     public void produce(String qName, boolean reliable, String value) {
         ProduceParam produceParam = new ProduceParam(qName, reliable, value);
         RequestMessage<ProduceParam> rm = new RequestMessage<>();

@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.myboot.AutoConfigrutionClass
+com.weiguofu.limq.config.InjectConfiguration

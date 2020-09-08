@@ -26,10 +26,20 @@ Netty+BlockingQueue实现的简单mq
     
 ### 使用方式：
    #### 1.客户端引用：
+   
    ```
+        私有仓库地址：修改setting.xml,比较麻烦，以后deploy到公共仓库
+        <mirror>
+            <id>nexus-weiguofu</id>
+            <mirrorOf>!internal.repo,*</mirrorOf>
+            <name>internal nexus repository</name>
+            <!--镜像采用配置好的组的地址-->
+            <url>http://47.108.178.29:8081/repository/java-group/</url>
+        </mirror>
+
       <dependency>
             <groupId>com.weiguofu</groupId>
-            <artifactId>limqClient</artifactId>
+            <artifactId>liMqClient</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
    ```

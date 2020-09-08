@@ -3,20 +3,20 @@ package com.weiguofu.limq.config;
 import com.weiguofu.limq.LimqClient;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 /**
- * @Description: TODO
  * @Author: GuoFuWei
  * @Date: 2020/9/7 23:44
  * @Version 1.0
  */
-@Component
+@Configuration
 @EnableConfigurationProperties({NettyProperties.class})
 public class InjectConfiguration {
 
     @Bean
-    public LimqClient limqClient() {
-        return LimqClient.Instance();
+    public LimqClient limqClient(NettyProperties properties) {
+        return new LimqClient(properties);
     }
+
 }

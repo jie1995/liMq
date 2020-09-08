@@ -4,7 +4,9 @@ import com.weiguofu.limq.LimqClient;
 import com.weiguofu.limq.entity.NettyHolder;
 import com.weiguofu.limq.facade.Queue;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
@@ -15,12 +17,15 @@ import java.util.Map;
  * @Version 1.0
  */
 @Slf4j
+@Component
 public class QueueDeclare {
 
-    public static void queueDeclareScan(ApplicationContext applicationContext) {
+    @Autowired
+    private LimqClient limqClient;
+
+    public void queueDeclareScan(ApplicationContext applicationContext) {
         Map<String, Queue> mq = applicationContext.getBeansOfType(Queue.class);
         log.info("待创建的队列个数:{}", mq.keySet().size());
-        LimqClient limqClient;
         while (NettyHolder.channel == null) {
             if (NettyHolder.channel != null) {
                 break;
@@ -32,7 +37,7 @@ public class QueueDeclare {
                 e.printStackTrace();
             }
         }
-        if (mq.keySet().size() > 0 && (limqClient = LimqClient.Instance()) != null) {
+        if (mq.keySet().size() > 0) {
             mq.forEach((k, v) -> {
                         limqClient.declareQueue(v.qName);
                     }

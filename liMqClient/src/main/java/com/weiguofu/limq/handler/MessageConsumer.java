@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.weiguofu.limq.InterfaceDefines;
 import com.weiguofu.limq.LimqClient;
 import com.weiguofu.limq.UuidUtil;
-import com.weiguofu.limq.demo.MyConsumer;
 import com.weiguofu.limq.entity.NettyHolder;
 import com.weiguofu.limq.entity.ReflectDto;
 import com.weiguofu.limq.facade.LimqConsumer;
@@ -13,8 +12,10 @@ import com.weiguofu.limq.messageDto.MessageWrapper;
 import com.weiguofu.limq.messageDto.RequestMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -33,12 +34,12 @@ import static com.weiguofu.limq.entity.NettyHolder.waitMap;
 @Slf4j
 public class MessageConsumer implements ApplicationContextAware {
 
-
+    @Autowired
+    QueueDeclare queueDeclare;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        excutor.execute(() -> LimqClient.Instance());
-        excutor.execute(() -> QueueDeclare.queueDeclareScan(applicationContext));
+        excutor.execute(() -> queueDeclare.queueDeclareScan(applicationContext));
         //收集所有的listener
         Map<String, LimqConsumer> map = applicationContext.getBeansOfType(LimqConsumer.class);
 
