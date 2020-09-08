@@ -1,6 +1,7 @@
 package com.weiguofu.limq.handler;
 
 import com.google.gson.Gson;
+import com.weiguofu.limq.GlobalInitVar;
 import com.weiguofu.limq.messageDto.MessageWrapper;
 import com.weiguofu.limq.messageDto.RequestMessage;
 import com.weiguofu.limq.service.LimqRequestReceive;
@@ -24,7 +25,7 @@ public class RequestDispatcher {
         String message = mw.getMessage();
         Gson gson = new Gson();
         RequestMessage rm = gson.fromJson(message, RequestMessage.class);
-        Class<LimqRequestReceive> clazz = (Class<LimqRequestReceive>) Class.forName(rm.getClassName());
+        Class<LimqRequestReceive> clazz = (Class<LimqRequestReceive>) Class.forName(GlobalInitVar.CLASS_NAME);
         Object obj = clazz.getConstructor().newInstance();
         Method m = clazz.getMethod(rm.getMethodName(), new Class[]{String.class, String.class});
         log.info("current method name:{}", m.getName());

@@ -23,8 +23,4 @@ public class RequestMessage<T> {
      */
     private String methodName;
 
-    /**
-     * 类全限定名
-     */
-    private final String className = InterfaceDefines.CLASS_NAME;
 }

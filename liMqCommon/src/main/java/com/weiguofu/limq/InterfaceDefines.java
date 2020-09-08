@@ -8,11 +8,6 @@ package com.weiguofu.limq;
  */
 public interface InterfaceDefines {
 
-    /**
-     * 类全限定名
-     */
-    String CLASS_NAME = "com.weiguofu.limq.service.LimqRequestReceive";
-
 
     /**
      * 生产消息方法名

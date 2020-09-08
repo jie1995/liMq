@@ -3,9 +3,7 @@ package com.weiguofu.limq;
 import com.weiguofu.limq.storage.TaskQueue;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -18,10 +16,12 @@ import java.util.concurrent.TimeUnit;
  */
 public interface GlobalInitVar {
 
+
     /**
-     * 注册的topic
+     * 约定大于配置
+     * 类全限定名，
      */
-    Set<String> allTopic = new HashSet<>();
+    String CLASS_NAME = "com.weiguofu.limq.service.LimqRequestReceive";
 
 
     /**
