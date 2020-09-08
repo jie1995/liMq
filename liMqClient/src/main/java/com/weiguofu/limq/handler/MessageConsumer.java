@@ -56,7 +56,6 @@ public class MessageConsumer implements ApplicationContextAware {
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             }
-
         });
     }
 

@@ -2,8 +2,6 @@ package com.weiguofu.limq.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 
 /**
  * @Description: 配置类
@@ -13,8 +11,10 @@ import org.springframework.stereotype.Component;
  */
 
 /**
- * 加了component，注入时机就会在bean创建前，
- * 不加走spring.factories配置类，引入jar包只会走这种，时机会在后面，所以引入jar的时候会报错
+ * 实现ApplicationContextAware接口
+ * ->注入limqClient的方式->加了component,配置已经装配，
+ * ->未加component,配置未装配，等待springboot自动装配机制
+ * 所以，整合springboot，注入limqclient的时候注入NettyProperties
  */
 @ConfigurationProperties(prefix = "netty.server")
 @Slf4j
@@ -29,7 +29,6 @@ public class NettyProperties {
     }
 
     public void setPort(int port) {
-        log.info("自动装配配置:{}", port);
         this.port = port;
     }
 
