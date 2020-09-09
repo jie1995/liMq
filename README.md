@@ -48,40 +48,42 @@ Netty+BlockingQueue实现的简单mq
 ```    
    @Component
    public class MyConsumer implements LimqConsumer {
-       /**
-        * 注入limqClient
-        * @return
-        */
        @Autowired
-       LimqClient limqClient;
-
-   
-       /**
-        * 声明队列,绑定topic
-        * @return
-        */
-       @Bean
-       public Queue queue1() {
-           return new Queue("testQueue").bind("topic");
-       }
-   
-       /**
-        * 监听队列处理业务逻辑
-        * @param val
-        */
-       @LimqListener(listenQueue = "testQueue")
-       @Override
-       public void consume(String val) {
-           log.info("val:{}", val);
-       }
-   
-       /**
-        * 消息投递
-        * @param limqClient
-        */
-       public  void produce(LimqClient limqClient) {
-           limqClient.produce("testQueue", false, "hello,world");
-       }   
+          LimqClient limqClient;
+      
+          /**
+           * 声明队列
+           *
+           * @return
+           */
+          @Bean
+          public Queue queue1() {
+              return new Queue("testQueue").bind("topic1").bind("topic2");
+          }
+      
+          /**
+           * 监听队列处理业务逻辑
+           * @param val
+           */
+          @LimqListener(listenQueue = "testQueue")
+          @Override
+          public void consume(String val) {
+              log.info("val:{}", val);
+          }
+      
+          /**
+           * 消息投递点对点
+           */
+          public void produce() {
+              limqClient.produce("testQueue", false, "hello,world");
+          }
+      
+          /**
+           * 消息投递到topic
+           */
+          public void produceWithTopic() {
+              limqClient.produceWithTopic("topic3", "hello,world");
+          }
    }
    
    ```

@@ -44,11 +44,17 @@ public class MyConsumer implements LimqConsumer {
     }
 
     /**
-     * 消息投递
+     * 消息投递点对点
      */
     public void produce() {
-        //limqClient.produce("testQueue", false, "hello,world");
-        limqClient.produceWithTopic("topic1", "hello,world");
+        limqClient.produce("testQueue", false, "hello,world");
+    }
+
+    /**
+     * 消息投递到topic
+     */
+    public void produceWithTopic() {
+        limqClient.produceWithTopic("topic3", "hello,world");
     }
 
 }
