@@ -30,7 +30,7 @@ public class MyConsumer implements LimqConsumer {
      */
     @Bean
     public Queue queue1() {
-        return new Queue("testQueue").bind("topic1").bind("topic2");
+        return new Queue("testQueue").bind("topic1").bind("topic2").bind("topic3");
     }
 
     /**
