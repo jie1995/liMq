@@ -35,12 +35,15 @@ public class LimqClientHandler extends SimpleChannelInboundHandler<MessageWrappe
                 log.error(responseMessage.getMessage());
             } else {
                 if (waitMap.keySet().contains(mw.getMessageId())) {
+                    if (gson.fromJson(mw.getMessage(), ResponseMessage.class).getData() == null) {
+                        waitMap.remove(mw.getMessageId());
+                    }
                     //设置返回值
                     waitMap.get(mw.getMessageId()).setResultValue(mw.getMessage());
                     //resolve这里bug:每次有结果都会新开线程执行该方法
                     //开始处理
                     if (!NettyHolder.scanWaitMapRunning) {
-                        log.info("一直打印此条信息,说明一直在提交扫描任务到线程池..");
+                        //log.info("一直打印此条信息,说明一直在提交扫描任务到线程池..");
                         excutor.execute(() ->
                                 MessageCosumeJop.consumeProcess());
                         NettyHolder.scanWaitMapRunning = true;

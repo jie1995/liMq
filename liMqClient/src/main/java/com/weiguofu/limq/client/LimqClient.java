@@ -45,7 +45,7 @@ public class LimqClient {
         RequestMessage<ProduceParam> rm = new RequestMessage<>();
         rm.setParam(produceParam);
         rm.setMethodName(InvokeMethodDefines.M_PRODUCE);
-        log.info("produce:{}", MessageWrapper.wrapperMessage(rm));
+        //log.info("produce:{}", MessageWrapper.wrapperMessage(rm));
         NettyHolder.channel.writeAndFlush(MessageWrapper.wrapperMessage(rm));
     }
 
@@ -54,7 +54,7 @@ public class LimqClient {
         RequestMessage<ProduceParam> rm = new RequestMessage<>();
         rm.setParam(produceParam);
         rm.setMethodName(InvokeMethodDefines.M_PRODUCE_TOPIC);
-        log.info("produceWithTopic:{}", MessageWrapper.wrapperMessage(rm));
+        //log.info("produceWithTopic:{}", MessageWrapper.wrapperMessage(rm));
         NettyHolder.channel.writeAndFlush(MessageWrapper.wrapperMessage(rm));
     }
 
@@ -62,7 +62,7 @@ public class LimqClient {
         RequestMessage<Queue> rm = new RequestMessage<>();
         rm.setMethodName(InvokeMethodDefines.M_DECLAREQUEUE);
         rm.setParam(queue);
-        log.info("declareQueue:{}", MessageWrapper.wrapperMessage(rm));
+        //log.info("declareQueue:{}", MessageWrapper.wrapperMessage(rm));
         NettyHolder.channel.writeAndFlush(MessageWrapper.wrapperMessage(rm));
     }
 
@@ -71,7 +71,7 @@ public class LimqClient {
         rm.setMethodName(InvokeMethodDefines.M_CONSUME);
         rm.setParam(qName);
         Gson gson = new Gson();
-        log.info("pullConsume:{}", gson.toJson(rm));
+        //log.info("pullConsume:{}", gson.toJson(rm));
         while (NettyHolder.channel == null) {
             if (NettyHolder.channel != null) {
                 break;

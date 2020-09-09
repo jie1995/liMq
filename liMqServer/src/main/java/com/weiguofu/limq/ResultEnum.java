@@ -8,6 +8,9 @@ package com.weiguofu.limq;
 public enum ResultEnum {
 
     SUCCESS("201", "success"),
+
+    NULL_MESSAGE("202","no message right now"),
+
     FAIL("501", "fail"),
 
     NULL_QUEUE("502", "queue is not exist"),

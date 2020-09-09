@@ -23,7 +23,7 @@ public class QueueDeclareJop {
 
     public void queueDeclareScan(ApplicationContext applicationContext) {
         Map<String, Queue> mq = applicationContext.getBeansOfType(Queue.class);
-        log.info("待创建的队列个数:{}", mq.keySet().size());
+        //log.info("待创建的队列个数:{}", mq.keySet().size());
         while (NettyHolder.channel == null) {
             if (NettyHolder.channel != null) {
                 break;
