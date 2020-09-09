@@ -24,7 +24,6 @@ import static com.weiguofu.limq.entity.NettyHolder.waitMap;
  * @Version 1.0
  */
 @Slf4j
-@Component
 public class MessageCosumeJop {
 
     @Autowired

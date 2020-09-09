@@ -7,7 +7,6 @@ import com.weiguofu.limq.UuidUtil;
 import com.weiguofu.limq.codeh.MessageDecoder;
 import com.weiguofu.limq.codeh.MessageEncoder;
 import com.weiguofu.limq.config.NettyProperties;
-import com.weiguofu.limq.demo.MyConsumer;
 import com.weiguofu.limq.entity.NettyHolder;
 import com.weiguofu.limq.entity.ReflectDto;
 import com.weiguofu.limq.facade.LimqConsumer;
@@ -21,7 +20,6 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.Method;
 
@@ -35,9 +33,6 @@ import static com.weiguofu.limq.entity.NettyHolder.waitMap;
  */
 @Slf4j
 public class LimqClient {
-
-    @Autowired
-    MyConsumer myConsumer;
 
 
     public LimqClient(NettyProperties properties) {

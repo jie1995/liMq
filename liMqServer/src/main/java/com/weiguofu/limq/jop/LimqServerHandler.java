@@ -65,7 +65,6 @@ public class LimqServerHandler extends SimpleChannelInboundHandler<MessageWrappe
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         log.info("exceptionCaught捕获到异常");
         cause.printStackTrace();
-        //TODO 记录到日志
         //ctx.channel().writeAndFlush(MessageWrapper.wrapperMessage(ResponseUtil.fail(customException.getAnEnum())));
     }
 }
