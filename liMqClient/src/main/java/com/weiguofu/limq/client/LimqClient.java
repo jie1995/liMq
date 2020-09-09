@@ -46,7 +46,6 @@ public class LimqClient {
         RequestMessage<ProduceParam> rm = new RequestMessage<>();
         rm.setParam(produceParam);
         rm.setMethodName(InvokeMethodDefines.M_PRODUCE);
-        //log.info("produce:{}", MessageWrapper.wrapperMessage(rm));
         NettyHolder.channel.writeAndFlush(MessageWrapper.wrapperMessage(rm));
     }
 

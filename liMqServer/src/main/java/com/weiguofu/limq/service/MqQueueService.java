@@ -26,6 +26,7 @@ public class MqQueueService {
     public boolean save(TaskQueue deque, String value) throws ExecutionException, InterruptedException {
         Future<?> future = GlobalInitVar.excutor.submit(() -> {
             try {
+                //队列满了后会阻塞
                 deque.getQueue().put(value);
             } catch (InterruptedException e) {
                 e.printStackTrace();

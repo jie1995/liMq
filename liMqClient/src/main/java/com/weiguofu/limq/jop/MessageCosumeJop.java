@@ -34,7 +34,6 @@ public class MessageCosumeJop {
         Map<String, LimqConsumer> map = applicationContext.getBeansOfType(LimqConsumer.class);
 
         map.forEach((k, v) ->
-
         {
             Class clazz = v.getClass();
             try {
