@@ -1,6 +1,6 @@
 package com.weiguofu.limq;
 
-import com.weiguofu.limq.handler.MessageConsumer;
+import com.weiguofu.limq.jop.ActivateCoreJop;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -14,8 +14,8 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class LimqClientApplication {
     @Bean
-    public MessageConsumer messageConsumer() {
-        return new MessageConsumer();
+    public ActivateCoreJop messageConsumer() {
+        return new ActivateCoreJop();
     }
 
     public static void main(String[] args) {

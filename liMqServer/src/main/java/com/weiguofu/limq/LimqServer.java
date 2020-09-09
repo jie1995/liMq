@@ -2,8 +2,8 @@ package com.weiguofu.limq;
 
 import com.weiguofu.limq.codeh.MessageDecoder;
 import com.weiguofu.limq.codeh.MessageEncoder;
-import com.weiguofu.limq.handler.LimqServerHandler;
-import com.weiguofu.limq.handler.RequestDispatcher;
+import com.weiguofu.limq.jop.LimqServerHandler;
+import com.weiguofu.limq.jop.RequestDispatcher;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;

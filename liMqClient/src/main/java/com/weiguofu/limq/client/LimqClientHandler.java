@@ -1,8 +1,9 @@
-package com.weiguofu.limq.handler;
+package com.weiguofu.limq.client;
 
 
 import com.google.gson.Gson;
 import com.weiguofu.limq.entity.NettyHolder;
+import com.weiguofu.limq.jop.MessageCosumeJop;
 import com.weiguofu.limq.messageDto.MessageWrapper;
 import com.weiguofu.limq.messageDto.ResponseMessage;
 import io.netty.channel.ChannelHandlerContext;
@@ -41,7 +42,7 @@ public class LimqClientHandler extends SimpleChannelInboundHandler<MessageWrappe
                     if (!NettyHolder.scanWaitMapRunning) {
                         log.info("一直打印此条信息,说明一直在提交扫描任务到线程池..");
                         excutor.execute(() ->
-                                MessageConsumer.consumeProcess());
+                                MessageCosumeJop.consumeProcess());
                         NettyHolder.scanWaitMapRunning = true;
                     }
                 } else {

@@ -1,6 +1,6 @@
-package com.weiguofu.limq.handler;
+package com.weiguofu.limq.jop;
 
-import com.weiguofu.limq.LimqClient;
+import com.weiguofu.limq.client.LimqClient;
 import com.weiguofu.limq.entity.NettyHolder;
 import com.weiguofu.limq.messageDto.requestParamDto.Queue;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ import java.util.Map;
  */
 @Slf4j
 @Component
-public class QueueDeclare {
+public class QueueDeclareJop {
 
     @Autowired
     private LimqClient limqClient;

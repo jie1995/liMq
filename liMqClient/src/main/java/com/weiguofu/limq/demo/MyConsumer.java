@@ -1,6 +1,6 @@
 package com.weiguofu.limq.demo;
 
-import com.weiguofu.limq.LimqClient;
+import com.weiguofu.limq.client.LimqClient;
 import com.weiguofu.limq.facade.LimqConsumer;
 import com.weiguofu.limq.facade.LimqListener;
 import com.weiguofu.limq.messageDto.requestParamDto.Queue;
@@ -45,10 +45,10 @@ public class MyConsumer implements LimqConsumer {
 
     /**
      * 消息投递
-     * @param limqClient
      */
-    public  void produce(LimqClient limqClient) {
-        limqClient.produce("testQueue", false, "hello,world");
+    public void produce() {
+        //limqClient.produce("testQueue", false, "hello,world");
+        limqClient.produceWithTopic("topic1", "hello,world");
     }
 
 }
