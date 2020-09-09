@@ -3,9 +3,9 @@ package com.weiguofu.limq.service;
 import com.google.gson.Gson;
 import com.weiguofu.limq.GlobalInitVar;
 import com.weiguofu.limq.ResponseUtil;
-import com.weiguofu.limq.ResultEnum;
 import com.weiguofu.limq.messageDto.MessageWrapper;
 import com.weiguofu.limq.messageDto.RequestMessage;
+import com.weiguofu.limq.messageDto.ResponseMessage;
 import com.weiguofu.limq.messageDto.requestParamDto.ProduceParam;
 import com.weiguofu.limq.messageDto.requestParamDto.Queue;
 import com.weiguofu.limq.storage.TaskQueue;
@@ -46,7 +46,7 @@ public class LimqRequestReceive {
         Optional<TaskQueue> queue = Optional.ofNullable(deque = GlobalInitVar
                 .allQueue.get(pp.getKey()));
         if (!queue.isPresent()) {
-            return MessageWrapper.wrapperMessage(ResponseUtil.nullQueue(pp.getKey()), uuid);
+            return MessageWrapper.wrapperMessage(new ResponseMessage<>(uuid, rm.getMethodName() + ":" + pp.getKey() + " is not exist", null));
         }
         if (pp.getReliable()) {
             service.save(deque, pp.getValue());
@@ -102,9 +102,11 @@ public class LimqRequestReceive {
         log.info("declareQueue:{}", requestMessage);
         RequestMessage rm = gson.fromJson(requestMessage, RequestMessage.class);
         Queue q = gson.fromJson(gson.toJson(rm.getParam()), Queue.class);
-        //Queue q = (Queue) rm.getParam();
+        //Queue q = (Queue) rm.getParam(); ResponseUtil.fail(ResultEnum.REPEAT_QUEUE), uuid
         if (GlobalInitVar.allQueue.keySet().contains(q.getqName())) {
-            return MessageWrapper.wrapperMessage(ResponseUtil.fail(ResultEnum.REPEAT_QUEUE), uuid);
+            return MessageWrapper.wrapperMessage(
+                    new ResponseMessage<>(uuid, rm.getMethodName() + ":" + q.getqName() + " is repeat", null)
+            );
         }
         GlobalInitVar.allQueue.put(q.getqName(), new TaskQueue(q.getTopicList(), new ArrayBlockingQueue<String>(5)));
         return MessageWrapper.wrapperMessage(ResponseUtil.success(), uuid);
@@ -115,7 +117,7 @@ public class LimqRequestReceive {
         RequestMessage rm = gson.fromJson(requestMessage, RequestMessage.class);
         String qName = (String) rm.getParam();
         if (!GlobalInitVar.allQueue.keySet().contains(qName)) {
-            return MessageWrapper.wrapperMessage(ResponseUtil.nullQueue(qName), uuid);
+            return MessageWrapper.wrapperMessage(new ResponseMessage<>(uuid, rm.getMethodName() + ":" + qName + " is not exist", null));
         }
         //take()方法会一直阻塞，所以没有返回结果
         Object obj = GlobalInitVar.allQueue.get(qName).getQueue().poll();

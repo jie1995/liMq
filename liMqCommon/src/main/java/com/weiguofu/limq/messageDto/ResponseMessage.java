@@ -1,5 +1,6 @@
 package com.weiguofu.limq.messageDto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -8,6 +9,7 @@ import java.io.Serializable;
  * @author 15173
  */
 @Data
+@AllArgsConstructor
 public class ResponseMessage<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
