@@ -117,8 +117,8 @@ public class LimqRequestReceive {
         if (!GlobalInitVar.allQueue.keySet().contains(qName)) {
             return MessageWrapper.wrapperMessage(ResponseUtil.nullQueue(qName), uuid);
         }
-        //这个方法会一直阻塞，所以没有返回结果
-        Object obj = GlobalInitVar.allQueue.get(qName).getQueue().take();
+        //take()方法会一直阻塞，所以没有返回结果
+        Object obj = GlobalInitVar.allQueue.get(qName).getQueue().poll();
         return MessageWrapper.wrapperMessage(ResponseUtil.success(obj), uuid);
     }
 
