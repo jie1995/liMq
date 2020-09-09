@@ -35,11 +35,13 @@ public class LimqClientHandler extends SimpleChannelInboundHandler<MessageWrappe
                 log.error(responseMessage.getMessage());
             } else {
                 if (waitMap.keySet().contains(mw.getMessageId())) {
-                    if (gson.fromJson(mw.getMessage(), ResponseMessage.class).getData() == null) {
+                    if (responseMessage.getData() == null) {
+                        //之前npe是因为这里remove后继续执行了，肯定就空指针了
                         waitMap.remove(mw.getMessageId());
+                        return;
                     }
                     //设置返回值
-                    waitMap.get(mw.getMessageId()).setResultValue(mw.getMessage());
+                    waitMap.get(mw.getMessageId()).setResultValue((String) responseMessage.getData());
                     //resolve这里bug:每次有结果都会新开线程执行该方法
                     //开始处理
                     if (!NettyHolder.scanWaitMapRunning) {
@@ -49,8 +51,8 @@ public class LimqClientHandler extends SimpleChannelInboundHandler<MessageWrappe
                         NettyHolder.scanWaitMapRunning = true;
                     }
                 } else {
-                    //说明该条消息不需要响应，直接打印
-                    log.info("response message:{}", responseMessage.getMessage());
+                    //说明该条消息不属于消费者，直接打印
+                    //log.info("response message:{}", responseMessage.getMessage());
                 }
             }
         }

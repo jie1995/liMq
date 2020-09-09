@@ -70,7 +70,6 @@ public class LimqClient {
         RequestMessage<String> rm = new RequestMessage<>();
         rm.setMethodName(InvokeMethodDefines.M_CONSUME);
         rm.setParam(qName);
-        Gson gson = new Gson();
         //log.info("pullConsume:{}", gson.toJson(rm));
         while (NettyHolder.channel == null) {
             if (NettyHolder.channel != null) {

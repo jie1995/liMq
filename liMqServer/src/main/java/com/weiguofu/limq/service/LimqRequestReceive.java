@@ -3,6 +3,7 @@ package com.weiguofu.limq.service;
 import com.google.gson.Gson;
 import com.weiguofu.limq.GlobalInitVar;
 import com.weiguofu.limq.ResponseUtil;
+import com.weiguofu.limq.ResultEnum;
 import com.weiguofu.limq.messageDto.MessageWrapper;
 import com.weiguofu.limq.messageDto.RequestMessage;
 import com.weiguofu.limq.messageDto.ResponseMessage;
@@ -46,7 +47,7 @@ public class LimqRequestReceive {
         Optional<TaskQueue> queue = Optional.ofNullable(deque = GlobalInitVar
                 .allQueue.get(pp.getKey()));
         if (!queue.isPresent()) {
-            return MessageWrapper.wrapperMessage(new ResponseMessage<>(uuid, rm.getMethodName() + ":" + pp.getKey() + " is not exist", null));
+            return MessageWrapper.wrapperMessage(new ResponseMessage<>(ResultEnum.NULL_QUEUE.getCode(), rm.getMethodName() + ":" + pp.getKey() + " is not exist", null), uuid);
         }
         if (pp.getReliable()) {
             service.save(deque, pp.getValue());
@@ -105,7 +106,7 @@ public class LimqRequestReceive {
         //Queue q = (Queue) rm.getParam(); ResponseUtil.fail(ResultEnum.REPEAT_QUEUE), uuid
         if (GlobalInitVar.allQueue.keySet().contains(q.getqName())) {
             return MessageWrapper.wrapperMessage(
-                    new ResponseMessage<>(uuid, rm.getMethodName() + ":" + q.getqName() + " is repeat", null)
+                    new ResponseMessage<>(ResultEnum.REPEAT_QUEUE.getCode(), rm.getMethodName() + ":" + q.getqName() + " is repeat", null), uuid
             );
         }
         GlobalInitVar.allQueue.put(q.getqName(), new TaskQueue(q.getTopicList(), new ArrayBlockingQueue<String>(5)));
@@ -117,10 +118,11 @@ public class LimqRequestReceive {
         RequestMessage rm = gson.fromJson(requestMessage, RequestMessage.class);
         String qName = (String) rm.getParam();
         if (!GlobalInitVar.allQueue.keySet().contains(qName)) {
-            return MessageWrapper.wrapperMessage(new ResponseMessage<>(uuid, rm.getMethodName() + ":" + qName + " is not exist", null));
+            return MessageWrapper.wrapperMessage(new ResponseMessage<>(ResultEnum.NULL_QUEUE.getCode(), rm.getMethodName() + ":" + qName + " is not exist", null), uuid);
         }
         //take()方法会一直阻塞，所以没有返回结果
         Object obj = GlobalInitVar.allQueue.get(qName).getQueue().poll();
+        System.out.println("---"+MessageWrapper.wrapperMessage(ResponseUtil.success(obj), uuid));
         return MessageWrapper.wrapperMessage(ResponseUtil.success(obj), uuid);
     }
 
