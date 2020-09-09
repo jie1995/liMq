@@ -71,7 +71,6 @@ public class LimqClient {
         RequestMessage<String> rm = new RequestMessage<>();
         rm.setMethodName(InvokeMethodDefines.M_CONSUME);
         rm.setParam(qName);
-        //log.info("pullConsume:{}", gson.toJson(rm));
         while (NettyHolder.channel == null) {
             if (NettyHolder.channel != null) {
                 break;
@@ -95,7 +94,7 @@ public class LimqClient {
                 NettyHolder.channel.writeAndFlush(MessageWrapper.wrapperMessage(rm, uuId));
             }
             try {
-                Thread.sleep(5000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
