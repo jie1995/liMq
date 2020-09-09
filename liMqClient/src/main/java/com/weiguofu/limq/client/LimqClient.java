@@ -1,6 +1,5 @@
 package com.weiguofu.limq.client;
 
-import com.google.gson.Gson;
 import com.weiguofu.limq.InvokeMethodDefines;
 import com.weiguofu.limq.Spliter;
 import com.weiguofu.limq.UuidUtil;
@@ -16,12 +15,14 @@ import com.weiguofu.limq.messageDto.requestParamDto.ProduceParam;
 import com.weiguofu.limq.messageDto.requestParamDto.Queue;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Method;
+import java.util.concurrent.ExecutionException;
 
 import static com.weiguofu.limq.entity.NettyHolder.waitMap;
 
@@ -120,7 +121,18 @@ public class LimqClient {
                     }
                 });
 
-        Channel channel = bootstrap.connect(host, port).channel();
-        NettyHolder.channel = channel;
+        ChannelFuture channelFuture = bootstrap.connect(host, port);
+        try {
+            channelFuture.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        if (!channelFuture.isSuccess()) {
+            log.error("cannot get connection from server!");
+        } else {
+            NettyHolder.channel = channelFuture.channel();
+        }
     }
 }

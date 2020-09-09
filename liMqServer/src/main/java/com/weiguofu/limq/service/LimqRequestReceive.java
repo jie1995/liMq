@@ -122,7 +122,6 @@ public class LimqRequestReceive {
         }
         //take()方法会一直阻塞，所以没有返回结果
         Object obj = GlobalInitVar.allQueue.get(qName).getQueue().poll();
-        System.out.println("---"+MessageWrapper.wrapperMessage(ResponseUtil.success(obj), uuid));
         return MessageWrapper.wrapperMessage(ResponseUtil.success(obj), uuid);
     }
 
