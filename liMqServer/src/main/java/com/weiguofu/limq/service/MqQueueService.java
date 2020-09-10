@@ -33,7 +33,8 @@ public class MqQueueService {
             }
         });
         // 注意future.get()是阻塞的
-        return (Boolean) future.get();
+        // future.get();
+        return true;
     }
 
 

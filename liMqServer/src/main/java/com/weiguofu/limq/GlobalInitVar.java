@@ -38,6 +38,6 @@ public interface GlobalInitVar {
             5,
             0,
             TimeUnit.SECONDS,
-            new ArrayBlockingQueue<>(5),
+            new ArrayBlockingQueue<>(100),
             new ThreadPoolExecutor.AbortPolicy());
 }
