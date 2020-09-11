@@ -12,7 +12,6 @@
 
     <groupId>com.weiguofu</groupId>
     <artifactId>liMqServer</artifactId>
-    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>

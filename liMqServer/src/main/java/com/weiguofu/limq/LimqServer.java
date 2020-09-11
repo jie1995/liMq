@@ -2,6 +2,7 @@ package com.weiguofu.limq;
 
 import com.weiguofu.limq.codeh.MessageDecoder;
 import com.weiguofu.limq.codeh.MessageEncoder;
+import com.weiguofu.limq.config.ServerConfig;
 import com.weiguofu.limq.jop.LimqServerHandler;
 import com.weiguofu.limq.jop.RequestDispatcher;
 import io.netty.bootstrap.ServerBootstrap;
@@ -9,8 +10,9 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 /**
@@ -20,13 +22,18 @@ import org.springframework.stereotype.Component;
  * @Version 1.0
  */
 @Slf4j
-@Component
-public class LimqServer implements ApplicationListener<ContextRefreshedEvent> {
+public class LimqServer implements ApplicationContextAware {
 
-    private int port=9003;
+    private ServerConfig serverConfig;
+
+
+    public LimqServer(ServerConfig serverConfig) {
+        this.serverConfig = serverConfig;
+    }
+
 
     public void serverListener() throws InterruptedException {
-        log.info("netty服务端启动,端口号:{}", port);
+        log.info("netty服务端启动,端口号:{}", serverConfig.getPort());
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
@@ -52,7 +59,7 @@ public class LimqServer implements ApplicationListener<ContextRefreshedEvent> {
                                     .addLast("LiMqServerHandler", new LimqServerHandler(new RequestDispatcher()));
                         }
                     });
-            ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
+            ChannelFuture channelFuture = serverBootstrap.bind(serverConfig.getPort()).sync();
             channelFuture.channel().closeFuture().sync();
         } finally {
             bossGroup.shutdownGracefully();
@@ -60,14 +67,13 @@ public class LimqServer implements ApplicationListener<ContextRefreshedEvent> {
         }
     }
 
+
     @Override
-    public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         try {
             serverListener();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
-
-
 }

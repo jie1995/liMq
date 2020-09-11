@@ -1,7 +1,5 @@
 package com.weiguofu.limq.jop;
 
-import com.weiguofu.limq.jop.MessageCosumeJop;
-import com.weiguofu.limq.jop.QueueDeclareJop;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +27,6 @@ public class ActivateCoreJop implements ApplicationContextAware {
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         excutor.execute(() -> queueDeclareJop.queueDeclareScan(applicationContext));
         excutor.execute(() -> messageCosumeJop.messageConsumeScan(applicationContext));
-
     }
 
 
