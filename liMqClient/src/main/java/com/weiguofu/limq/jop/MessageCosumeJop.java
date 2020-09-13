@@ -29,7 +29,7 @@ public class MessageCosumeJop {
     private LimqClient limqClient;
 
 
-    public void messageConsumeScan(ApplicationContext applicationContext) {
+    protected void messageConsumeScan(ApplicationContext applicationContext) {
         //收集所有的listener
         Map<String, LimqConsumer> map = applicationContext.getBeansOfType(LimqConsumer.class);
 

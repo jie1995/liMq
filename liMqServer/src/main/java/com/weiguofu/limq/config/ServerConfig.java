@@ -20,7 +20,6 @@ public class ServerConfig {
     }
 
     public void setPort(int port) {
-        log.info("----");
         this.port = port;
     }
 }
